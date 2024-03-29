@@ -71,29 +71,18 @@
 </script>
 
 <section class="pt-5 md:pt-10 pb-20 md:pb-32 relative">
-	<h2 class="text-600 md:text-700 bg-off-white relative z-10 font-bold mb-5 md:mb-10 w-fit">
-		Hear it from them!
-	</h2>
+	<h2 class="text-600 md:text-700 bg-off-white relative z-10 font-bold mb-5 md:mb-10 w-fit">Hear it from them!</h2>
 	<div class="swiper swiper-container-rating md:px-10">
 		<div class="swiper-wrapper">
 			{#if ratings}
 				{#each ratings as rating}
 					<div class="swiper-slide">
 						<div class="bg-gray-100 grid gap-x-3 md:gap-x-6 max-lg:gap-y-2 p-5 rounded-lg">
-							<div
-								class="profile-img overflow-clip xl:mx-5 bg-gray-200 rounded-full aspect-square min-w-[4rem] lg:row-start-1 lg:row-end-3"
-							>
-								<img
-									class="w-full h-full"
-									src={rating.profileImg}
-									alt="profile img"
-									loading="lazy"
-								/>
+							<div class="profile-img overflow-clip xl:mx-5 bg-gray-200 rounded-full aspect-square min-w-[4rem] lg:row-start-1 lg:row-end-3">
+								<img class="w-full h-full" src={rating.profileImg} alt="profile img" loading="lazy" />
 							</div>
 							<div>
-								<div
-									class="name font-bold max-md:max-w-[20ch] sm:text-600 text-gray-400 text-opacity-40"
-								>
+								<div class="name font-bold max-md:max-w-[20ch] sm:text-600 text-gray-400 text-opacity-40">
 									{rating.name}
 								</div>
 								<div class="rating flex gap-1 sm:gap-2">
@@ -104,9 +93,7 @@
 									{/if}
 								</div>
 							</div>
-							<div
-								class="comment truncate-text h-[6em] text-[0.7em] sm:text-400 max-lg:col-start-1 max-lg:col-end-3"
-							>
+							<div class="comment truncate-text-4 h-[6em] text-[0.7em] sm:text-400 max-lg:col-start-1 max-lg:col-end-3">
 								{rating.comment}
 							</div>
 						</div>
@@ -115,16 +102,13 @@
 			{/if}
 		</div>
 	</div>
-	<div
-		class="swiper-button-next-rating max-lg:w-[2rem] absolute top-1/2 -translate-y-1/2 -right-4 lg:-right-10 z-20 cursor-pointer"
-	>
+	<div class="swiper-button-next-rating max-lg:w-[2rem] absolute top-1/2 -translate-y-1/2 -right-4 lg:-right-10 z-20 cursor-pointer">
 		<img src="home/hearThem/Next page.png" alt="next card" />
 	</div>
-	<div
-		class="swiper-button-prev-rating max-lg:w-[2rem] rotate-180 absolute top-1/2 -translate-y-1/2 -left-4 lg:-left-10 z-20 cursor-pointer"
-	>
+	<div class="swiper-button-prev-rating max-lg:w-[2rem] rotate-180 absolute top-1/2 -translate-y-1/2 -left-4 lg:-left-10 z-20 cursor-pointer">
 		<img src="home/hearThem/Next page.png" alt="next card" />
 	</div>
+	<a href="/" class="join text-white max-md:w-52 text-center bg-primary-300 font-bold text-300 md:text-400 px-8 md:px-20 py-3 md:py-4 rounded-md">Join Freeli Now!</a>
 </section>
 
 <style>
@@ -137,11 +121,12 @@
 			grid-template-rows: auto;
 		}
 	}
-	.truncate-text {
-		display: -webkit-box;
-		-webkit-line-clamp: 4;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-		text-overflow: ellipsis;
+	.join {
+		position: absolute;
+		z-index: 20;
+		bottom: 0rem;
+		left: 50%;
+		transform: translate(-50%, +50%);
+		box-shadow: 0 0 15px 10px #ffffff45;
 	}
 </style>

@@ -1,6 +1,6 @@
 <script>
-	import ChatBox from '../../../lib/components/messaging/ChatBox.svelte';
-	import ChatList from '../../../lib/components/messaging/ChatList.svelte';
+	import ChatBox from './sections/ChatBox.svelte';
+	import ChatList from './sections/ChatList.svelte';
 	import { chatState } from '$lib/stores/messeges.js';
 	let chat;
 	chatState.subscribe((value) => {
