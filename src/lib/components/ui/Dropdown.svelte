@@ -1,14 +1,9 @@
 <script>
 	export let title;
 	export let options;
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
-	function sendData(value) {
-		dispatch('receiveData', value);
-	}
-	let droppedDown = false;
-	const dropDown = () => {
-		droppedDown = !droppedDown;
+	let explore = false;
+	const handleExploreClick = () => {
+		explore = !explore;
 	};
 </script>
 
@@ -16,16 +11,16 @@
 	<button
 		class="md:hover:text-primary-300"
 		on:click={() => {
-			dropDown();
+			handleExploreClick();
 		}}
 	>
 		{title}
-		<img class:rotate-180={droppedDown} class="inline-block" src="/home/header/downArrow.svg" alt="" />
+		<img class:rotate-180={explore} class="inline-block" src="/home/header/downArrow.svg" alt="" />
 	</button>
-	<div class:down={droppedDown} class:up={!droppedDown} class="dropdown md:mt-2 md:absolute">
+	<div class:down={explore} class:up={!explore} class="dropdown md:mt-2 md:absolute">
 		<div class="md:bg-white max-md:bg-off-white px-5 md:my-5 font-semibold rounded-lg md:shadow-xl">
 			{#each options as option}
-				<a class="block my-3" on:click={() => dropDown()} on:click={sendData(option.value)} href={option.path}>{option.value}</a>
+				<a class="block my-3" href={option.path}>{option.value}</a>
 			{/each}
 		</div>
 	</div>
@@ -34,7 +29,7 @@
 <style>
 	.explore .dropdown {
 		display: grid;
-		transition: grid-template-rows 0.3s ease;
+		transition: grid-template-rows 0.5s ease;
 	}
 	.up {
 		grid-template-rows: 0fr;
