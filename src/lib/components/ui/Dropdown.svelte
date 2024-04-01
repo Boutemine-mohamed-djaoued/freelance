@@ -29,7 +29,7 @@
 			{/each}
 		</div>
 	</div>
-	@@ -34,7 +29,7 @@
+	
 <style>
 	.explore .dropdown {
 		display: grid;
