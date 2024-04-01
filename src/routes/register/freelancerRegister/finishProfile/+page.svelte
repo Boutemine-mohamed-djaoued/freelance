@@ -2,6 +2,11 @@
   import { onMount } from "svelte";
   import LeftSide from "../../../components/register/LeftSide.svelte";
   import MainBtn from "$lib/components/ui/MainButton.svelte";
+  import {session} from "$lib/stores/Session.js"; 
+
+  onMount ( () => {
+    $session = 'register';
+  })
 
   let job;
   let userName;
@@ -48,7 +53,7 @@
 
   function clearSession() {
     sessionStorage.clear();
-    localStorage.clear();
+    $session = 'freelancer';
   }
 </script>
 

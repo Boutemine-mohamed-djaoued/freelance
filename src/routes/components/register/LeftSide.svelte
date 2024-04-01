@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   export let number;
   import RectangleImage from '/static/register/Rectangle.png'; 
+  import { session } from '$lib/stores/Session.js'
 
   let vh = 0;
   let vw = 0;
@@ -20,12 +21,11 @@
     width3 = Math.max(307, 0.422 * vw - 230);
     width4 = Math.min(290, 0.5 * vw + 72);
     height3 = Math.max(95, 0.19 * vh - 17.5);
-    console.log(width3, height3);
   };
 
   onMount(() => {
+    $session = 'register';
     updateDimensions();
-
     window.addEventListener("resize", updateDimensions);
 
     return () => {
@@ -43,7 +43,6 @@
 
   for( let i = 0 ; i<number ; i++){
     numbers[i].color = "#332941";
-    console.log(numbers[i].color);
   }
 </script>
 
@@ -313,7 +312,7 @@
   </div>
 </div>
 
-<a href="/" class="absolute right-10 top-5 text-[#BE2AB1] font-semibold max-lg:hidden">log in</a>
+<a href="/" class="absolute right-10 top-5 text-[#BE2AB1] font-semibold max-lg:hidden" on:click={() => {$session = 'freelancer'}}>log in</a>
 
 <style>
   .image {
