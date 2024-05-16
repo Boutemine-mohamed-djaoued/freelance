@@ -7,12 +7,12 @@
 			description: 'Describe the job you need'
 		},
 		{
-			title: 'Time',
-			description: 'When do you need it'
-		},
-		{
 			title: 'Rate',
 			description: 'How much are you paying'
+		},
+		{
+			title: 'Skills Required',
+			description: 'What are the skills you need'
 		},
 		{
 			title: 'Upload Files',

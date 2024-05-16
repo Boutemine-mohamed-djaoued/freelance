@@ -1,50 +1,61 @@
 <script>
 	import ChoiceDropDown from '$lib/components/ui/ChoiceDropDown.svelte';
 	import { fly } from 'svelte/transition';
-	let time = ['time 1', 'time 2', 'time 3'];
-	let wilayas = ['wilay 1', 'wilaya 2', 'wilaya 3'];
-	let work = ['work 1', 'work 2', 'work 3'];
-	let frequency = ['frequency 1', 'frequency 2', 'frequency 3'];
+	import { isThisStepValid, gigData } from '$lib/stores/CreateGig.js';
+
+	$: {
+		// $isThisStepValid[1] = $gigData.price >= 1000;
+	}
+	let timeDeadline;
+	$: {
+		if (timeDeadline) $gigData.deadline = new Date(timeDeadline).toISOString();
+		console.log($gigData.deadline);
+	}
 	const consolData = (e) => {
 		console.log(e.detail);
 	};
 </script>
 
 <div in:fly={{ x: 100, duration: 300 }}>
+	lorem
 	<div class="max-md:hidden">
 		<h2 class="md:text-400 mb-3 md:mb-5">Time & Location</h2>
 		<div class="h-[0.2rem] bg-gray-200" />
 	</div>
 	<div>
 		<div class="max-lg:flex-col flex gap-5 justify-around my-3 md:mt-5 md:mb-14">
-			<div class="flex-1" >
-				<label for="">Time</label>
+			<div class="flex-1">
+				<label for="">Dead Line</label>
 				<br />
 				<div class="lg:max-w-[22rem] relative z-[20]">
-					<ChoiceDropDown on:receiveData={consolData} defaultValue="time 1" options={time}></ChoiceDropDown>
+					<input class="w-full rounded-md py-3" type="date" bind:value={timeDeadline} />
 				</div>
 			</div>
 			<div class="flex-1">
-				<label for="">Wilayas</label>
+				<label for="job-title">Rate <span class="text-red-600">*</span></label>
 				<br />
-				<div class="lg:max-w-[22rem] relative z-[10]">
-					<ChoiceDropDown on:receiveData={consolData} defaultValue="wilays 1" options={wilayas}></ChoiceDropDown>
-				</div>
+				<input class="border-2 focus:border-primary-300 focus-visible:ring-primary-300 border-gray-300 rounded-md py-3 px-5 bg-blue-white w-full lg:w-[min(22rem,100%)]" id="job-title" type="number" placeholder="Amount in DA" bind:value={$gigData.price} required min="1000" />
 			</div>
 		</div>
 		<div class="max-lg:flex-col-reverse flex gap-5">
 			<div class="flex-1">
-				<label for="">Update frequency</label>
+				<label for="">Payment Structure</label>
 				<br />
 				<div class="lg:max-w-[22rem]">
-					<ChoiceDropDown on:receiveData={consolData} defaultValue="work 1" options={work}></ChoiceDropDown>
+					<ChoiceDropDown
+						on:receiveData={(e) => {
+							$gigData.payment_structure = e.detail;
+						}}
+						defaultValue="By_Project"
+						options={['By_Project', 'By_Milestone']}
+					></ChoiceDropDown>
 				</div>
 			</div>
 			<div class="flex-1">
-				<label for="">Job</label>
+				<label for="">Payment Method</label>
 				<br />
 				<div class="lg:max-w-[22rem]">
-					<ChoiceDropDown on:receiveData={consolData} defaultValue="frequency 1" options={frequency}></ChoiceDropDown>
+					<ChoiceDropDown on:receiveData={consolData} defaultValue="ccp" options={['ccp']}></ChoiceDropDown>
 				</div>
 			</div>
 		</div>

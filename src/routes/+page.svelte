@@ -6,6 +6,7 @@
 	import HearThen from './sections/HearThen.svelte';
 	import Footer from '../lib/layout/Footer.svelte';
 	import { fly } from 'svelte/transition';
+	
 </script>
 
 <div class="full-width grid-system" transition:fly={{ y: 100, duratin: 300 }}>

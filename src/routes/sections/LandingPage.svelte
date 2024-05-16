@@ -17,14 +17,12 @@
 				</button>
 			</div>
 			<div class="md:translate-y-12 max-md:mx-auto w-fit relative my-5">
-				<a href="/" class="text-300 md:text-400 px-[1em] py-[0.5em] focus-visible:outline-primary-300 bg-off-black text-white rounded-md font-semibold">
-					Become a <span class="text-primary-300">freelancer</span></a
-				>
+				<a href="/" class="text-300 md:text-400 px-[1em] py-[0.5em] focus-visible:outline-primary-300 bg-off-black text-white rounded-md font-semibold"> Become a <span class="text-primary-300">freelancer</span></a>
 				<img class="tags md:hidden absolute -left-20 bottom-3" src="home/landingPage/tags.svg" alt="" />
 			</div>
 		</div>
-		<div class="img max-md:hidden bg-no-repeat bg-cover aspect-[699/550] w-[clamp(20rem,55vw,50rem)]" style="background-image:url('home/landingPage/landingImage2-lowres.webp')">
-			<img class="w-full" src="home/landingPage/landingImage2.webp" alt="laptop ilustration" />
+		<div class="img max-md:hidden bg-no-repeat bg-cover aspect-[699/550] w-[clamp(20rem,55vw,50rem)]" style="background-image:url('/home/landingPage/landingImage2-lowres.webp')">
+			<img class="w-full" src="/home/landingPage/landingImage2.webp" alt="laptop ilustration" />
 		</div>
 	</div>
 </section>

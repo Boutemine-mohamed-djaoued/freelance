@@ -1,6 +1,9 @@
 <script>
+	import makeQuery from '$lib/util/makeQuery.js';
+	import { postJob } from '$lib/util/queries.js';
+	import { token, id } from '$lib/stores/Session.js';
 	import { goto } from '$app/navigation';
-	import { currentStep, isThisStepValid, catchError } from '$lib/stores/CreateGig.js';
+	import { currentStep, isThisStepValid, catchError, gigData } from '$lib/stores/CreateGig.js';
 	const GoToNextStep = () => {
 		if ($isThisStepValid[$currentStep]) {
 			goto(`/client/createGig/Step${$currentStep + 2}`);
@@ -18,6 +21,15 @@
 		goto(`/client/createGig/Step${$currentStep}`);
 		currentStep.update((n) => n - 1);
 	};
+	const post = async () => {
+		try {
+			let data = await makeQuery(postJob, { input: $gigData, user: $id }, { 'content-type': 'application/json', Authorization: $token });
+			console.log(data);
+		} catch (err) {
+			console.log(err);
+			alert('failed to post gig');
+		}
+	};
 </script>
 
 <div class="flex my-5 font-medium">
@@ -29,4 +41,5 @@
 		Next Step
 		<img src="/general/white-arrow.svg" alt="" />
 	</button>
+	<button on:click={() => post()} class="flex items-center ml-auto text-white bg-primary-300 rounded-full px-5 py-2" class:hidden={$currentStep !== 4}> post Gig </button>
 </div>

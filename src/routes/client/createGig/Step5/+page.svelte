@@ -2,19 +2,17 @@
 	import GigCard from '$lib/components/ui/GigCard.svelte';
 	import { fly } from 'svelte/transition';
 	let gig = {
-		title: 'title',
-		description: 'description',
-		price: 100,
-		location: 'location',
-		time: 'time',
-		category: 'category',
-		experience: 'experience',
-		job: 'job',
-		payment: 'payment',
-		method: 'method',
-		boost: 'boost',
-		rate: 0,
-		files: []
+		clientInfo: {
+			firstName: 'abdoo',
+			lastName: 'chappa'
+		},
+		title: 'goat Milker',
+		createdAt: '2024-5-20',
+		expertize_level: 'Entry',
+		payment_structure: 'By_Project',
+		price: '2000',
+		deadline: '2004-20-3',
+		description: 'chappa chappa chappa chappa chappa chappa chappa chappa chappa chappa '
 	};
 </script>
 

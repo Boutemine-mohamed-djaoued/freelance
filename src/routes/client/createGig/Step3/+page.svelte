@@ -1,62 +1,68 @@
 <script>
 	import { onMount } from 'svelte';
-	import ChoiceDropDown from '$lib/components/ui/ChoiceDropDown.svelte';
-	import { isThisStepValid } from '$lib/stores/CreateGig.js';
+	import { isThisStepValid, gigData } from '$lib/stores/CreateGig.js';
 	import { fly } from 'svelte/transition';
-	let payment = ['time 1', 'time 2', 'time 3'];
-	let method = ['work 1', 'work 2', 'work 3'];
-	let boost = ['frequency 1', 'frequency 2', 'frequency 3'];
-	let rate;
+
+	let toSelect = ['Web Development', 'SEO Writing', 'Administrative Support', 'Article', 'Blog Content', 'Customer Service', 'Ebook Writing', 'Email Communication', 'Fact-Checking', 'File Maintenance', 'File Management', 'Ghostwriting', 'Google Docs', 'List-Based Infographics'];
+	let selected = ['Mobile', 'Blog Writing', 'Logo Design', 'Creative Writing', 'Translation', 'Copywriting'];
+
 	$: {
-		$isThisStepValid[2] = rate >= 1000;
+		$isThisStepValid[2] = selected.length != 0;
 	}
 
+	$: {
+		$gigData.tags = selected;
+	}
+	const selectTag = (i) => {
+		selected = [...selected, toSelect[i]];
+		toSelect.splice(i, 1);
+		toSelect = toSelect;
+	};
+	const unSelectTag = (i) => {
+		toSelect = [...toSelect, selected[i]];
+		selected.splice(i, 1);
+		selected = selected;
+	};
 	const consolData = (e) => {
 		console.log(e.detail);
 	};
 </script>
 
-<div in:fly={{ x: 100, duration: 300 }}>
+<div class="md:min-h-[20rem]" in:fly={{ x: 100, duration: 300 }}>
 	<div class="max-md:hidden">
-		<h2 class="md:text-400 mb-3 md:mb-5">Time & Location</h2>
+		<h2 class="md:text-400 mb-3 md:mb-5">Skills Required</h2>
 		<div class="h-[0.2rem] bg-gray-200" />
 	</div>
-	<form>
-		<div class="max-lg:flex-col flex gap-5 justify-around my-3 md:mt-5 md:mb-14">
-			<div class="flex-1">
-				<label for="">payment</label>
-				<br />
-				<div class="lg:max-w-[22rem] relative z-[20]">
-					<ChoiceDropDown on:receiveData={consolData} defaultValue="cash 1" options={payment}></ChoiceDropDown>
+	<div class="md:flex mt-5 gap-5 items-center">
+		<div>
+			<h3 class="mb-2">Search for skills you need</h3>
+			<div class="flex items-center">
+				<div class="bg-black p-2 rounded-s-lg">
+					<img src="/general/magnifier.svg" alt="" />
 				</div>
+				<input class="min-w-0 rounded-e-lg" type="text" />
 			</div>
-			<div class="flex-1">
-				<label for="job-title">Rate <span class="text-red-600">*</span></label>
-				<br />
-				<input class="border-2 focus:border-primary-300 focus-visible:ring-primary-300 border-gray-300 rounded-md py-3 px-5 bg-blue-white w-full lg:w-[min(22rem,100%)]" id="job-title" type="number" placeholder="Amount in DA" bind:value={rate} required min="1000" />
+			<h3 class="mt-3 mb-2">Selected Skills</h3>
+			<div>
+				{#each selected as skill, i}
+					<button on:click={() => unSelectTag(i)} class="border-2 border-primary-300 border-opacity-45 hover:border-gray-300 rounded-2xl px-2 py-1 me-1 mb-1 text-300">
+						{skill}
+						<img class="w-3 inline ml-1" src="/general/close.png" alt="" />
+					</button>
+				{/each}
 			</div>
 		</div>
-		<div class="max-lg:flex-col-reverse flex gap-5">
-			<div class="flex-1">
-				<label for="">method</label>
-				<br />
-				<div class="lg:max-w-[22rem]">
-					<ChoiceDropDown on:receiveData={consolData} defaultValue="work 1" options={method}></ChoiceDropDown>
-				</div>
-			</div>
-			<div class="flex-1">
-				<label for="">boost</label>
-				<br />
-				<div class="lg:max-w-[22rem]">
-					<ChoiceDropDown on:receiveData={consolData} defaultValue="frequency 1" options={boost}></ChoiceDropDown>
-				</div>
-			</div>
+		<div>
+			<h3 class="mt-3 mb-2">Suggestions</h3>
+			{#each toSelect as skill, i}
+				<button on:click={() => selectTag(i)} class="border-2 hover:border-primary-300 hover:border-opacity-45 border-gray-300 rounded-2xl px-2 py-1 me-1 mb-1 text-300">
+					{skill}
+					<img class="w-3 inline ml-1 rotate-45" src="/general/close.png" alt="" />
+				</button>
+			{/each}
 		</div>
-	</form>
+	</div>
 </div>
 
 <style>
-	label {
-		@apply md:text-400 text-gray-500;
-	}
 </style>
