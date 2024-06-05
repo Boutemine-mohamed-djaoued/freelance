@@ -1,7 +1,7 @@
 <script>
 	export let options;
 	export let defaultValue;
-
+	export let getSmall;
 	import { createEventDispatcher } from 'svelte';
 
 	let droppedDown = false;
@@ -22,6 +22,8 @@
 
 <div class="explore w-full rounded-md max-md:text-left relative">
 	<button
+		class:max-md:px-3={getSmall}
+		class:max-md:py-1={getSmall}
 		class="md:hover:border-primary-300 border-2 rounded-md border-gray-300 px-5 py-3 w-full flex items-center justify-between bg-blue-white"
 		on:click={() => {
 			dropDown();
@@ -33,7 +35,7 @@
 	<div class:down={droppedDown} class:up={!droppedDown} class="dropdown absolute w-full">
 		<div class="rounded-b-md text-gray-500">
 			{#each options as option}
-				<button class="w-[100%] bg-blue-white text-start border-gray-300 border-b-2 border-x-2 border-x-primary-300 py-3 px-5" on:click={() => chooseOption(option)} on:click={sendData(option)}>{option}</button>
+				<button class:max-md:px-3={getSmall} class:max-md:py-2={getSmall} class="w-[100%] bg-blue-white text-start border-gray-300 border-b-2 border-x-2 border-x-primary-300 py-3 px-5" on:click={() => chooseOption(option)} on:click={sendData(option)}>{option}</button>
 			{/each}
 		</div>
 	</div>

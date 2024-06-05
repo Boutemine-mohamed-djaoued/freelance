@@ -215,16 +215,17 @@
 	let user = {
 		name: 'Nassim',
 		profileImg: '/defaultProfile.svg',
-		gig: 'website'
+		gig: 'website',
+		state: 'online'
 	};
 </script>
 
 <div class="flex relative">
 	<div class:hide={chat} class="chat-list w-full md:w-[max(30vw,20rem)]">
-		<ChatList {friends}></ChatList>
+		<ChatList></ChatList>
 	</div>
 	<div class:hide={!chat} class="w-full">
-		<ChatBox {user}></ChatBox>
+		<ChatBox></ChatBox>
 	</div>
 </div>
 

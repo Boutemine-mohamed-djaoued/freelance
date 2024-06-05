@@ -11,7 +11,7 @@
 			bio: "Web Developer 🚀 | Turning ideas into interactive websites 💻 | Coding wizard with HTML, CSS, and JavaScript ⚡ | Crafting digital experiences that stand out! 🎨 | Let's build something amazing together!",
 			pr1: '/home/topTalent/pr1.png',
 			pr2: '/home/topTalent/pr2.png',
-			pr3: '/home/topTalent/pr33.png',
+			pr3: '/home/topTalent/pr3.png',
 			pr4: '/home/topTalent/pr4.png'
 		},
 		{

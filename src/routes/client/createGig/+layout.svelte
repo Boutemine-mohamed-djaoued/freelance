@@ -1,4 +1,5 @@
 <script>
+	import { gigData } from '$lib/stores/CreateGig.js';
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import DesktopStepIndicator from './sections/DesktopStepIndicator.svelte';

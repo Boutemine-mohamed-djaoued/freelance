@@ -2,6 +2,9 @@
 	import { onMount } from 'svelte';
 	import Swiper from 'swiper';
 	import { Navigation } from 'swiper/modules';
+
+
+
 	let categories = [
 		{ title: 'Web design', url: 'home/categories/web.png' },
 		{ title: 'Voice acting', url: 'home/categories/voice.png' },
@@ -60,6 +63,7 @@
 		});
 	});
 </script>
+
 
 <section class="wrapper relative isolate overflow-x-clip max-sm:after:hidden max-md:before:hidden min-h-[25rem]">
 	<div class="full-width2 py-5 md:py-20">

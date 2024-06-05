@@ -1,27 +1,40 @@
 <script>
 	import { showFilters } from '$lib/stores/FeedState.js';
-	let filters = [
+	import { filters } from '$lib/stores/filters.js';
+	let filterValues = [
 		{
-			title: 'Location',
-			values: ['Near me', 'Any location', 'Exact location', 'Within 15 km', 'Within 30 km', 'Within 50 km']
-		},
-		{
-			title: 'Gig rate',
-			values: ['Any', '> 30000', '> 50000', '> 80000', '> 100000']
+			title: 'Job rate',
+			name: 'rate',
+			values: ['Any', 900, 50000, 80000, 1000000]
 		},
 		{
 			title: 'Date of posting',
-			values: ['All time', 'Last 24 hours', 'Last 3 days', 'Last 7 days']
+			name: 'date',
+			values: ['Any', 'Last 24 hours', 'Last 3 days', 'Last 7 days']
 		},
 		{
-			title: 'Work experience',
-			values: ['Any experience', 'Intermediate', 'Expert']
+			title: 'Experience Level',
+			name: 'experience',
+			values: ['Any', 'Entry', 'Intermediate', 'Expert']
 		},
 		{
-			title: 'Type of payment',
-			values: ['Any', 'Full-project', 'Hourly']
+			title: 'Job Size',
+			name: 'size',
+			values: ['Any', 'Small', 'Medium', 'Large']
+		},
+		{
+			title: 'payment structure',
+			name: 'structure',
+			values: ['Any', 'By_Milestone', 'By_Project']
 		}
 	];
+	const filterFeed = (field, value) => {
+		if (value === 'Any') {
+			$filters[field] = null;
+		} else {
+			$filters[field] = value;
+		}
+	};
 </script>
 
 <aside class="bg-white w-full p-5 md:mb-5 rounded-lg">
@@ -31,12 +44,15 @@
 			<img class="w-5 md:hidden" src="/general/back.svg" alt="" />
 		</button>
 	</div>
-	{#each filters as filter}
+	{#each filterValues as filter}
 		<form>
 			<h3 class="my-2 md:my-3 text-300 font-semibold">{filter.title}</h3>
 			{#each filter.values as value}
 				<label class="hover:cursor-pointer" for={value}>
-					<input checked={value === 'Any location' || value === 'Any' || value === 'All time' || value === 'Any experience' || value === 'Any experience'} class="m-2" type="radio" id={value} name={filter.title} {value} />
+					<input on:change={() => filterFeed(filter.name, value)} checked={value === 'Any'} class="m-2" type="radio" id={value} name={filter.title} {value} />
+					{#if filter.title === 'Gig rate'}
+						>
+					{/if}
 					{value}
 				</label><br />
 			{/each}

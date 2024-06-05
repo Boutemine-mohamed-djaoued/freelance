@@ -1,18 +1,18 @@
 <script>
 	import { onMount } from 'svelte';
-	import { currentStep, catchError, isThisStepValid } from '$lib/stores/CreateGig.js';
+	import { currentStep, catchError, isThisStepValid  , createGigData} from '$lib/stores/CreateGig.js';
 	let steps = [
 		{
 			title: 'General Info',
 			description: 'Describe the job you need'
 		},
 		{
-			title: 'Time',
-			description: 'When do you need it'
-		},
-		{
 			title: 'Rate',
 			description: 'How much are you paying'
+		},
+		{
+			title: 'Skills Required',
+			description: 'What are the skills you need'
 		},
 		{
 			title: 'Upload Files',
@@ -28,13 +28,13 @@
 	onMount(() => {
 		circlesContainer = document.querySelector('.circles-container');
 		circles = document.querySelectorAll('.circle');
-		currentStep.subscribe((n) => {
-			circlesContainer.style.setProperty('--progress-length', `calc((((100% - 3.5rem * 5) / 10) * ${2 * (n + 1) - 1}) + 3.5rem * ${n + 1})`);
+		createGigData.subscribe((value) => {
+			circlesContainer.style.setProperty('--progress-length', `calc((((100% - 3.5rem * 5) / 10) * ${2 * (value.currentStep + 1) - 1}) + 3.5rem * ${value.currentStep + 1})`);
 		});
-		catchError.subscribe((value) => {
-			if (value) {
+		createGigData.subscribe((value) => {
+			if (value.catchError) {
 				setTimeout(() => {
-					catchError.set(false);
+					$createGigData.catchError = false ;
 				}, 1000);
 			}
 		});
@@ -53,7 +53,7 @@
 	</div>
 	<div class="circles-container flex flex-col justify-around relative">
 		{#each steps as step, i}
-			<div class:current={i == $currentStep && !$catchError} class:passed={i < $currentStep} class:error={$catchError && !$isThisStepValid[$currentStep] && i == $currentStep} class="circle grid items-center text-center w-14 border-2 bg-blue-white rounded-full aspect-square">
+			<div class:current={i == $createGigData.currentStep && !$createGigData.catchError} class:passed={i < $createGigData.currentStep} class:error={$createGigData.catchError && !$createGigData.isThisStepValid[$createGigData.currentStep] && i == $createGigData.currentStep} class="circle grid items-center text-center w-14 border-2 bg-blue-white rounded-full aspect-square">
 				<p>{i + 1}</p>
 			</div>
 		{/each}
