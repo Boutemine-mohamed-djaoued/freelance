@@ -1,25 +1,34 @@
 <script>
-	export let wallet;
+	export let money;
 	export let postedJobs;
 	export let activeJobs;
 	export let completedJobs;
+	export let proposals;
+	export let type;
 </script>
 
 <section class="flex gap-5 md:gap-10">
 	<div class="!bg-primary-300 text-white justify-between">
 		<div>
-			<p>Wallet</p>
-			<p class="text-nowrap">{wallet} DA</p>
+			<p>{ type == "client" ? "Money Spent" : "Money Made"}</p>
+			<p class="text-nowrap">{money} DA</p>
 		</div>
 		<div>
 			<img class="max-lg:hidden" src="/dashboard/line.svg" alt="" />
 		</div>
 	</div>
 	<div class="max-md:!hidden justify-between">
-		<div>
-			<p>Jobs Posted</p>
-			<p>{postedJobs}</p>
-		</div>
+		{#if type === 'client'}
+			<div>
+				<p>Jobs Posted</p>
+				<p>{postedJobs}</p>
+			</div>
+		{:else if type === 'freelancer'}
+			<div>
+				<p>Proposals</p>
+				<p>{proposals || 0}</p>
+			</div>
+		{/if}
 		<div>
 			<img class="max-lg:hidden" src="/dashboard/bigChart.svg" alt="" />
 		</div>

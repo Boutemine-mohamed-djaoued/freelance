@@ -1,7 +1,7 @@
 <script>
 	import { finishJob } from '$lib/stores/dashboard.js';
 	import { MS } from '$lib/util/consts.js';
-	import FreelancerHeader from '$lib/layout/FreelancerHeader.svelte';
+	import MainHeader from '$lib/layout/mainHeader.svelte';
 	import { showDetails, showFilters } from './../lib/stores/FeedState.js';
 	import { io } from 'socket.io-client';
 	import '../app.css';
@@ -19,8 +19,8 @@
 	});
 </script>
 
-<div class:no-scroll={$finishJob || $showDetails || $showFilters} class="freelancer relative grid-system overflow-clip">
-	<FreelancerHeader></FreelancerHeader>
+<div class:no-scroll={$finishJob || $showDetails || $showFilters} class="freelancer  relative grid-system overflow-clip">
+	<MainHeader></MainHeader>
 	<slot />
 </div>
 

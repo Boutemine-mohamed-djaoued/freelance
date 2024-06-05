@@ -13,9 +13,9 @@
 
 	$: {
 		if (proposals) {
-			for (let i = 0; i < 20; i++) {
-				proposals.push(proposals[0]);
-			}
+			// for (let i = 0; i < 20; i++) {
+			// 	proposals.push(proposals[0]);
+			// }
 			proposal.set(proposals[active]);
 		}
 	}

@@ -6,7 +6,7 @@
 	if (!postedJobs) {
 		postedJobs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	}
-	postedJobs = [1, 3, 18, 8, 10, 2, 7, 23, 16, 12, 22, 20];
+	// postedJobs = [1, 3, 18, 8, 10, 2, 7, 23, 16, 12, 22, 20];
 	postedJobs = postedJobs.map((element) => {
 		total += element;
 		return element + 0.1 * d3.max(postedJobs);
@@ -72,7 +72,7 @@
 			.append('text')
 			.attr('x', width - 120) // Position text to the right of the line
 			.attr('y', yPosition - 10) // Align text with the line
-			.text(Math.ceil(maxPostedJobs - 0.1 * d3.max(postedJobs)) + ' posted jobs') // Display the value
+			.text(Math.ceil(maxPostedJobs - 0.1 * d3.max(postedJobs)) + ' Done jobs') // Display the value
 			.style('fill', '#864AF9') // Set text color
 			.style('font-size', '14px'); // Set font size
 
@@ -83,7 +83,7 @@
 </script>
 
 <section class="bg-white p-5 rounded-xl">
-	<h4 class="text-gray-300">Posted Jobs</h4>
+	<h4 class="text-gray-300">Done Jobs</h4>
 	<h2 class="text-500 text-primary-400">{total} total</h2>
 	<div class="chart-container w-full">
 		<svg id="chart" class="w-full" height="200"></svg>

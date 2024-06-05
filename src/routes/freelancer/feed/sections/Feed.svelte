@@ -1,6 +1,6 @@
 <script>
 	import makeQuery from '$lib/util/makeQuery.js';
-	import { freelancerFeed } from '$lib/util/queries.js';
+	import { freelancerFeed, addWeight } from '$lib/util/queries.js';
 	import { id, token } from '$lib/stores/Session.js';
 	import { showDetails, showFilters } from '$lib/stores/FeedState.js';
 	import GigCard from '$lib/components/ui/GigCard.svelte';
@@ -42,12 +42,26 @@
 		}
 		gigs = [...gigs];
 	};
-	filters.subscribe(async () => {
+	filters.subscribe(async (value) => {
+		console.log(value);
 		await fetchGigs();
 	});
-	const getJob = (myJob) => {
+	const getJob = async (myJob) => {
 		showDetails.set(1);
 		job.set(myJob);
+		try {
+			let data = await makeQuery(
+				addWeight,
+				{ addWeightId: $id, jobid : $job._id },
+				{
+					'Content-Type': 'application/json',
+					authorization: $token
+				}
+			);
+			console.log(data);
+		} catch (err) {
+			console.log(err);
+		}
 	};
 </script>
 
@@ -57,7 +71,7 @@
 			<img src="/general/filter.svg" alt="" />
 			filters
 		</button>
-		<p class="max-md:hidden text-500">{gigNum} Gigs</p>
+		<p class="max-md:hidden text-500">{gigNum} Jobs</p>
 		<div class="w-[8rem]">
 			<ChoiceDropDown on:receiveData={(e) => sortGigs(e.detail)} getSmall="true" defaultValue="Sort By" options={['price', 'time']}></ChoiceDropDown>
 		</div>

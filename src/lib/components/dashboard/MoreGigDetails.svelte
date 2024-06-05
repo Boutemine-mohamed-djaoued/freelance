@@ -1,31 +1,19 @@
 <script>
+	import getFileType from '$lib/util/getFileType.js';
 	import { finishJob, job } from '$lib/stores/dashboard.js';
-	import { onMount } from 'svelte';
-	let gig = {
-		img: '',
-		name: 'Sleep Well',
-		topic: 'Web Developpement',
-		location: 'Annaba',
-		time: '29 min ago',
-		price: 500,
-		paimentMethod: 'Hourly',
-		description:
-			'Mollit in laborum tempor Lorem incididunt irure.  Aute eu ex ad sunt. Pariatur sint culpa do i ncididunt eiusmod eiusmod  culpa. laborum tempor Lorem incidieiusmod  culpa. laborum tempor Lorem incidieiusmod  culpa. laborum tempor Lorem incidieiusmod  culpa. laborum tempor Lorem incidieiusmod  culpa. laborum tempor Lorem incidieiusmod  culpa. laborum tempor Lorem incididunt.Mollit in laborum tempor Lorem incididunt irure.  Aute eu ex ad sunt. Pariatur sint culpa do i ncididunt eiusmod eiusmod  culpa. laborum tempor Lorem incididunt.',
-		files: [
-			{
-				img: '/fileTypes/pdf.svg',
-				name: 'Research.pdf',
-				size: '2.8MB'
-			},
-			{
-				img: '/fileTypes/doc.svg',
-				name: 'clientList.Word',
-				size: '4.2MB'
-			}
-		],
-		skills: ['Python', 'Backend', 'Django']
-	};
 	let gigIcons;
+	async function downloadFile(url, filename) {
+		const link = document.createElement('a');
+		let data = await fetch(url);
+		let res = await data.blob();
+		const aElement = document.createElement('a');
+		aElement.setAttribute('download', filename);
+		const href = URL.createObjectURL(res);
+		aElement.href = href;
+		aElement.setAttribute('target', '_blank');
+		aElement.click();
+		URL.revokeObjectURL(href);
+	}
 	job.subscribe((value) => {
 		if (value) {
 			gigIcons = [
@@ -73,12 +61,14 @@
 		<div class="my-5">
 			{#if $job.attachments}
 				{#each $job.attachments as file}
-					<div class="flex my-3 justify-between text-gray-500">
-						<div class="flex items-center gap-2">
-							<!-- <img src={file.img} alt="" /> -->
-							<p>{file.link.split('%20%20')[1].split('?')[0]}</p>
+					<div class="flex my-3 items-center justify-between text-gray-500">
+						<div class="relative file my-2">
+							<img class="w-10" src={`/fileTypes/${getFileType(file.kind)}.svg`} alt="" />
+							<button on:click={() => downloadFile(file.link, 'hello')} class="my-button rounded-md">
+								<img src="/general/download.svg" alt="lsjdf" />
+							</button>
 						</div>
-						<p>2MB</p>
+						<p>{file.link.split('%20%20')[1].split('?')[0]}</p>
 					</div>
 				{/each}
 			{:else}
@@ -125,5 +115,19 @@
 	}
 	.p-holder > div {
 		overflow: hidden;
+	}
+	.my-button {
+		position: absolute;
+		background-color: rgba(51, 51, 51, 0.6);
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		display: grid;
+		place-items: center;
+		border-radius: 0.5rem;
+		opacity: 0;
+	}
+	.my-button:hover {
+		opacity: 1;
 	}
 </style>

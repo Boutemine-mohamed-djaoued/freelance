@@ -1,6 +1,6 @@
 <script>
-	import  getFileType  from '$lib/util/getFileType.js';
-	import { gigData, isThisStepValid } from '$lib/stores/CreateGig.js';
+	import getFileType from '$lib/util/getFileType.js';
+	import { createGigData } from '$lib/stores/CreateGig.js';
 	import Loading from '$lib/components/ui/Loading.svelte';
 	import { fly } from 'svelte/transition';
 	import uploadFiles from '$lib/util/uploadFiles.js';
@@ -8,25 +8,27 @@
 	let uploading = false;
 	let formData = new FormData();
 	$: {
-		$isThisStepValid[3] = !uploading;
+		$createGigData.isThisStepValid[3] = !uploading;
 	}
 	const fileUploader = async () => {
 		try {
 			console.log('uplaoding...');
 			let links = await uploadFiles(formData);
 			console.log('uploaded');
-			console.log(links);
 			let i = 0;
 			for (let entry of formData.entries()) {
 				let key = entry[0];
 				let value = entry[1];
-				$gigData.attachments.push({
+				$createGigData.gigData.attachments.push({
 					link: links[i],
 					kind: value.type
 				});
 				i++;
+				for (let at of $createGigData.gigData.attachments) {
+					console.log(at.link);
+				}
 			}
-			$gigData = $gigData;
+			$createGigData.gigData = $createGigData.gigData;
 		} catch (err) {
 			console.log(err);
 		}
@@ -52,8 +54,8 @@
 		<h3 class="font-normal text-400 text-gray-500 mt-3 md:mt-5">Files Uploaded</h3>
 		<div class="opcity-100 relative border-2 min-h-[10rem] border-gray-400 mt-1 md:mt-2 rounded-md p-2">
 			<div class="flex">
-				{#if $gigData.attachments}
-					{#each $gigData.attachments as file}
+				{#if $createGigData.gigData.attachments}
+					{#each $createGigData.gigData.attachments as file}
 						<div class="me-1 mb-1">
 							<img class="w-12" src={`/fileTypes/${getFileType(file.kind)}.svg`} alt="" />
 						</div>

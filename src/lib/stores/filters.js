@@ -6,4 +6,5 @@ export let filters = writable({
   rate: null,
   experience: null,
   date: null,
+  query: null ,
 })

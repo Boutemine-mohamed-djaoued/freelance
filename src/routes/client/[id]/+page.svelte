@@ -8,14 +8,15 @@
 	import { getJobRequests } from '$lib/util/queries';
 	import { token, id } from '$lib/stores/Session.js';
 	import { onMount } from 'svelte';
-	let jobId = 'b79a681bd3fb496a80c6656b01260e46';
+	import { page } from '$app/stores';
 	let proposalsData;
+	console.log($page.params.id + "hello");
 	onMount(async () => {
 		try {
 			let data = await makeQuery(
 				getJobRequests,
 				{
-					getJobRequestsId: jobId,
+					getJobRequestsId: $page.params.id,
 					userid: $id
 				},
 				{
@@ -37,7 +38,7 @@
 	{#if proposalsData?.requests}
 		<div class="my-5 border-2 rounded-[2rem] flex">
 			<div class:max-md:hidden={$showProposalList} class="flex-1">
-				<ProposalDetail></ProposalDetail>
+				<ProposalDetail jobId={$page.params.id}></ProposalDetail>
 			</div>
 			<div class:max-md:hidden={!$showProposalList}>
 				<ProposalsList proposals={proposalsData?.requests}></ProposalsList>

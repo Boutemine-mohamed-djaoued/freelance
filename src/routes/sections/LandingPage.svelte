@@ -1,4 +1,5 @@
 <script>
+	let options = ['mobile', 'web', 'design', 'development',"fonisix" , "previlation escalation"];
 </script>
 
 <section class="wrapper max-md:overflow-x-clip relative z-10">
@@ -11,7 +12,12 @@
 			</h1>
 			<p class="text-400 lg:text-500 max-w-[30ch] max-md:text-center max-md:mx-auto my-4 text-balance">Discover the best freelancers and contact them through</p>
 			<div class="input max-md:mx-auto my-5 rounded-md overflow-clip ring-1 md:ring-2 ring-black flex w-[min(80%,18rem)] lg:w-[max(65%,18rem)]">
-				<input class="text-300 lg:text-400 w-[100%] border-none" type="text" placeholder="search for a service" />
+				<input autocomplete="on" list="options" id="option" class="text-300 lg:text-400 w-[100%] border-none" type="text" placeholder="search for a service" />
+				<datalist id="options" class="!w-[20rem]">
+					{#each options as option}
+						<option class="w-[20rem]" value={option} />
+					{/each}
+				</datalist>
 				<button class="icon w-[20%] bg-primary-300 grid justify-center p-2 lg:p-3">
 					<img src="/general/magnifier.svg" alt="" />
 				</button>

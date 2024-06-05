@@ -1,15 +1,20 @@
 import { writable } from "svelte/store";
 
 export let session = writable("freelancer");
+export let user = writable({
+  firstName: "mohamed" ,
+  lastName: "djawad",
+  picture : "/defaultProfile.svg"
+});
 //client
 
-export let id = writable("160fe7c8b49a4648a04f38f9223a4295");
-export let token = writable("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2MGZlN2M4YjQ5YTQ2NDhhMDRmMzhmOTIyM2E0Mjk1IiwidHlwZSI6InVzZXIiLCJpYXQiOjE3MTUxMTk1OTEsImV4cCI6MTcxNzcxMTU5MX0.rLTChwcrXlrsi_L0U4Dt6qI_f7S0BvYbCxdNtmXzgYs");
+export let id = writable("7d075583b56e4ba29c18d4b33b10c9fe");
+export let token = writable("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdkMDc1NTgzYjU2ZTRiYTI5YzE4ZDRiMzNiMTBjOWZlIiwidHlwZSI6InVzZXIiLCJiYW5uZWQiOmZhbHNlLCJpYXQiOjE3MTc1NDk0MzgsImV4cCI6MTcyMDE0MTQzOH0.jOSNRdczGQ9-Jsa2ZzOduCktLERi7RXtj5pa4RieGVs");
 
 // freelancer
 
-// export let id = writable("5d7b242c44af42fe97e9dd2147210c00");
-// export let token = writable("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2IyNDJjNDRhZjQyZmU5N2U5ZGQyMTQ3MjEwYzAwIiwidHlwZSI6InVzZXIiLCJpYXQiOjE3MTUwMjc5MTcsImV4cCI6MTcxNzYxOTkxN30.wpWQBdTdo_lzejZRqJ0qc8VPlv6jE52P3m_U3euhhzQ")
+// export let id = writable("9addca92fe9d4930a49186cadc91b6ec");
+// export let token = writable("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlhZGRjYTkyZmU5ZDQ5MzBhNDkxODZjYWRjOTFiNmVjIiwidHlwZSI6InVzZXIiLCJiYW5uZWQiOmZhbHNlLCJpYXQiOjE3MTc1NDkyMjUsImV4cCI6MTcyMDE0MTIyNX0.WVF1hhXeKQI7mkuQ8rZuXRLLlszeLN4WVkGnljGocbk")
 
 // moncef
 // export let id2 = "be526a9870df40c599af562e38a8324f";

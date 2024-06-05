@@ -3,9 +3,9 @@
 	import { filters } from '$lib/stores/filters.js';
 	let filterValues = [
 		{
-			title: 'Gig rate',
+			title: 'Job rate',
 			name: 'rate',
-			values: ['Any', 900, 50000, 80000, 100000]
+			values: ['Any', 900, 50000, 80000, 1000000]
 		},
 		{
 			title: 'Date of posting',

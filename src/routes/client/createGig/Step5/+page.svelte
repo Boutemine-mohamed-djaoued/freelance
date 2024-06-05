@@ -1,18 +1,20 @@
 <script>
 	import GigCard from '$lib/components/ui/GigCard.svelte';
 	import { fly } from 'svelte/transition';
+	import { createGigData } from '$lib/stores/CreateGig.js';
+	import { user } from '$lib/stores/Session.js';
 	let gig = {
 		clientInfo: {
-			firstName: 'abdoo',
-			lastName: 'chappa'
+			firstName: $user.firstName,
+			lastName: $user.lastName
 		},
-		title: 'goat Milker',
-		createdAt: '2024-5-20',
-		expertize_level: 'Entry',
-		payment_structure: 'By_Project',
-		price: '2000',
-		deadline: '2004-20-3',
-		description: 'chappa chappa chappa chappa chappa chappa chappa chappa chappa chappa '
+		title: $createGigData.gigData.title,
+		createdAt: $createGigData.gigData.createdAt,
+		expertize_level: $createGigData.gigData.expertize_level,
+		payment_structure: $createGigData.gigData.payment_structure,
+		price: $createGigData.gigData.price,
+		deadline: $createGigData.gigData.deadline,
+		description: $createGigData.gigData.description
 	};
 </script>
 

@@ -15,6 +15,7 @@
 			defaultReviews.all += element;
 		});
 	}
+	reviews.score = 30 ;
 	let reviewsProgress;
 	const setReviews = () => {
 		for (let i = 0; i < reviewsProgress.length; i++) {

@@ -16,13 +16,12 @@ const createFreelancerQuery = `mutation CreateFreelancer($input: Input!) {
 }`
 const postJob = `mutation PostJob($input: jobInput!, $user: ID!) {
   postJob(input: $input, user: $user) {
-    title
-    deadline
+    message
   }
 }`
 
-const freelancerFeed = `query GetFreelancerFeed($getFreelancerFeedId: ID!, $size: String, $structure: String, $rate: Float, $experience: String, $date: String) {
-  getFreelancerFeed(id: $getFreelancerFeedId, size: $size, structure: $structure, rate: $rate, experience: $experience, date: $date) {
+const freelancerFeed = `query GetFreelancerFeed($getFreelancerFeedId: ID!, $size: String, $structure: String, $rate: Float, $experience: String, $date: String, , $query: String) {
+  getFreelancerFeed(id: $getFreelancerFeedId, size: $size, structure: $structure, rate: $rate, experience: $experience, date: $date , query: $query) {
     _id
     title
     description
@@ -78,68 +77,82 @@ const getJobRequests = `query GetJobRequests($getJobRequestsId: ID!, $userid: ID
     }
   }
 }`
-const getClientJobs = `query ClientJobs($clientJobsId: ID!) {
-  clientJobs(id: $clientJobsId) {
+const getClientJobs = `query ExampleQuery($clientDashId: ID!) {
+  clientDash(id: $clientDashId) {
+    moneySpent
+    graph
     jobs {
+      _id
       title
       requests
       price
       createdAt
-      _id
-    }
-    jobsArchive {
-      _id
-      title
-      description
-      attachments {
-        kind
-        link
-      }
-      tags
-      price
-      job_size
-      payment_structure
-      expertize_level
-      deadline
-      createdAt
-      freelancerDetails {
-        firstName
-        lastName
-        bio
-        jobTitle
-        photo
-      }
-    }
-    jobsProgress {
-      _id
-      title
-      description
-      attachments {
-        kind
-        link
-      }
-      tags
-      price
-      job_size
-      payment_structure
-      expertize_level
-      deadline
-      createdAt
-      freelancerDetails {
-        bio
-        firstName
-        jobTitle
-        lastName
-        photo
-      }
     }
     rating {
       score
       stars
     }
-    graph
+    jobsArchive {
+      _id
+      title
+      clientReview
+      freelancerReview
+      description
+      attachments {
+        kind
+        link
+      }
+      tags
+      price
+      job_size
+      payment_structure
+      createdAt
+      deadline
+      details {
+        _id
+        bio
+        firstName
+        jobTitle
+        lastName
+        photo
+      }
+      expertize_level
+      files {
+        kind
+        link
+      }
+    }
+    jobsProgress {
+      _id
+      attachments {
+        kind
+        link
+      }
+      deadline
+      description
+      details {
+        _id
+        bio
+        firstName
+        jobTitle
+        lastName
+        photo
+      }
+      expertize_level
+      job_size
+      files {
+        kind
+        link
+      }
+      payment_structure
+      tags
+      price
+      title
+      createdAt
+    }
   }
-}`
+}
+`
 const acceptJob = `mutation AcceptJob($job: ID!, $client: ID!, $freelancer: ID!) {
   acceptJob(job: $job, client: $client, freelancer: $freelancer) {
     message
@@ -150,6 +163,125 @@ const validateJob = `mutation ValidateJob($job: ID!, $client: ID!) {
     message
   }
 }`
+const clientReveiwFreelancer = `mutation ClientReviewFreelancer($reviewed: ID!, $score: Int!, $comment: String, $reviewer: ID, $work: ID) {
+  clientReviewFreelancer(reviewed: $reviewed, score: $score, comment: $comment, reviewer: $reviewer, work: $work)
+}`
+const freelancerReveiwClient = `mutation FreelancerReviewClient($reviewed: ID!, $score: Int!, $comment: String, $reviewer: ID, $work: ID) {
+  freelancerReviewClient(reviewed: $reviewed, score: $score, comment: $comment, reviewer: $reviewer, work: $work)
+}`
+const getTalents = `query Query($talentsId: ID!) {
+  talents(id: $talentsId) {
+    freelancers {
+      _id
+      description
+      firstName
+      jobTitle
+      lastName
+      photo
+    }
+    name
+  }
+}`
+const getFreelancerDash = `query FreelancerDash($freelancerDashId: ID!) {
+  freelancerDash(id: $freelancerDashId) {
+    graph
+    moneyMade
+    jobsArchive {
+      _id
+      clientReview
+      freelancerReview
+      attachments {
+        kind
+        link
+      }
+      createdAt
+      deadline
+      description
+      details {
+        _id
+        bio
+        createdAt
+        firstName
+        jobTitle
+        lastName
+        photo
+      }
+      expertize_level
+      files {
+        kind
+        link
+      }
+      job_size
+      payment_structure
+      tags
+      price
+      title
+    }
+    rating {
+      score
+      stars
+    }
+    jobsProgress {
+      _id
+      attachments {
+        kind
+        link
+      }
+      createdAt
+      deadline
+      description
+      details {
+        _id
+        firstName
+        lastName
+        bio
+        jobTitle
+        photo
+        createdAt
+      }
+      files {
+        link
+        kind
+      }
+      expertize_level
+      job_size
+      payment_structure
+      price
+      tags
+      title
+    }
+    requests {
+      attachments
+      createdAt
+      updatedAt
+      deadline
+      description
+      _id
+      price
+      freelancer
+      job {
+        title
+      }
+    }
+  }
+}`
+const getChargilyLink = `query GetChargilyLink($getChargilyLinkId: ID, $job: ID) {
+  getChargilyLink(id: $getChargilyLinkId, job: $job) {
+    message
+    url
+  }
+}`
+const freelancerUploadFiles = `mutation UploadFiles($uploadFilesId: ID, $jobid: ID, $files: [attachmentInput]) {
+  uploadFiles(id: $uploadFilesId, jobid: $jobid, files: $files) {
+    message
+  }
+}`
+const createReport = `mutation CreateReport($type: ReportType!, $description: String!, $freelancerId: String!, $clientId: String!, $job: String) {
+  createReport(type: $type, description: $description, freelancerId: $freelancerId, clientId: $clientId, job: $job)
+}`
+const addWeight = `mutation AddWeight($addWeightId: ID, $jobid: ID) {
+  addWeight(id: $addWeightId, jobid: $jobid)
+}`
 export {
   loginQuery,
   createFreelancerQuery,
@@ -159,5 +291,13 @@ export {
   getJobRequests,
   getClientJobs,
   acceptJob,
-  validateJob
+  validateJob,
+  clientReveiwFreelancer,
+  getTalents,
+  getFreelancerDash,
+  freelancerReveiwClient,
+  getChargilyLink,
+  freelancerUploadFiles,
+  createReport,
+  addWeight
 };

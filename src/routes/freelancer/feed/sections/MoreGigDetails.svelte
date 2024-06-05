@@ -1,6 +1,19 @@
 <script>
+	import getFileType from '$lib/util/getFileType.js';
 	import { showDetails, job } from '$lib/stores/FeedState';
 	let gigIcons;
+	async function downloadFile(url, filename) {
+		const link = document.createElement('a');
+		let data = await fetch(url);
+		let res = await data.blob();
+		const aElement = document.createElement('a');
+		aElement.setAttribute('download', filename);
+		const href = URL.createObjectURL(res);
+		aElement.href = href;
+		aElement.setAttribute('target', '_blank');
+		aElement.click();
+		URL.revokeObjectURL(href);
+	}
 	job.subscribe((value) => {
 		if (value) {
 			gigIcons = [
@@ -56,10 +69,14 @@
 				{#each $job.attachements as file}
 					<div class="flex my-3 justify-between text-gray-500">
 						<div class="flex items-center gap-2">
-							<img src={file.kind} alt="" />
-							<p>{file.type}</p>
+							<div class="relative">
+								<img class="w-12" src={`/fileTypes/${getFileType(file.kind)}.svg`} alt="" />
+								<button on:click={() => downloadFile(file.file, file.kind)} class="my-button">
+									<img src="/general/download.svg" alt="" />
+								</button>
+							</div>
+							<p>{file.file}</p>
 						</div>
-						<p>2MB</p>
 					</div>
 				{/each}
 			{:else}
@@ -88,3 +105,20 @@
 		</div>
 	</section>
 {/if}
+
+<style>
+	.my-button {
+		position: absolute;
+		background-color: rgba(51, 51, 51, 0.6);
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		display: grid;
+		place-items: center;
+		border-radius: 0.5rem;
+		opacity: 0;
+	}
+	.my-button:hover {
+		opacity: 1;
+	}
+</style>

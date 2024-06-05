@@ -5,11 +5,11 @@
 	let explore = [
 		{ path: '/freelancer/feed', value: 'feed' },
 		{ path: '/client/createGig', value: 'Create Gig' },
-		{ path: '/client/dashboard', value: 'dashboard' },
-		{ path: '/', value: 'Explore 4' }
+		{ path: '/client/dashboard', value: 'c dashboard' },
+		{ path: '/freelancer/dashboard', value: 'f dashboard' }
 	];
 	let jobs = [
-		{ path: '/', value: 'job 1' },
+		{ path: '/client/talents', value: 'talents' },
 		{ path: '/', value: 'job 2' },
 		{ path: '/', value: 'job 3' },
 		{ path: '/', value: 'job 4' }

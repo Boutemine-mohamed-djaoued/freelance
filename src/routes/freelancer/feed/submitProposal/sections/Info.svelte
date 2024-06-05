@@ -1,8 +1,11 @@
 <script>
+	import { goto } from '$app/navigation';
 	import makeQuery from '$lib/util/makeQuery.js';
 	import { postProposal } from '$lib/util/queries.js';
 	import { id, token } from '$lib/stores/Session.js';
 	import { job } from '$lib/stores/FeedState.js';
+	import getFileType from '$lib/util/getFileType.js';
+	import uploadFiles from '$lib/util/uploadFiles.js';
 	let pairs;
 	let date = '';
 	let terms = {
@@ -10,10 +13,13 @@
 		service: 0,
 		received: 0
 	};
+	let uploading = false;
+	let formData = new FormData();
+	let fileInput;
 	let proposal = {
 		price: null,
 		description: null,
-		attachements: ['file1.svg', 'file2.jpg', 'file3.pdf'],
+		attachments: [],
 		deadline: null
 	};
 	$: {
@@ -66,15 +72,62 @@
 					authorization: $token
 				}
 			);
-			if (data.data.postJobRequest.message == 'Created') {
+			console.log(data);
+			if (data?.data?.postJobRequest?.message == 'Created') {
 				alert('Proposal submitted successfully');
 			} else if (data.data.postJobRequest.message == 'Updated') {
 				alert('Proposal updated successfully');
 			}
+			goto('/freelancer/feed');
 		} catch (err) {
 			console.log(err);
 		}
 	};
+	const fileUploader = async () => {
+		try {
+			console.log('uplaoding...');
+			let links = await uploadFiles(formData);
+			console.log('uploaded');
+			console.log(links);
+			let i = 0;
+			for (let entry of formData.entries()) {
+				let key = entry[0];
+				let value = entry[1];
+				proposal.attachments.push({
+					link: links[i],
+					kind: value.type
+				});
+				i++;
+			}
+			proposal.attachments = proposal.attachments;
+		} catch (err) {
+			console.log(err);
+		}
+		formData = new FormData();
+		uploading = false;
+	};
+	const saveFile = async () => {
+		uploading = true;
+		for (let file of fileInput.files) {
+			if (file.type !== '') formData.append('files', file);
+		}
+		fileInput.value = null;
+		uploading = true;
+		await fileUploader();
+		uploading = false;
+	};
+	async function downloadFile(url, filename) {
+		const link = document.createElement('a');
+		let data = await fetch(url);
+		let res = await data.blob();
+		const aElement = document.createElement('a');
+		aElement.setAttribute('download', filename);
+		const href = URL.createObjectURL(res);
+		aElement.href = href;
+		aElement.setAttribute('target', '_blank');
+		aElement.click();
+		URL.revokeObjectURL(href);
+	}
 </script>
 
 {#if $job}
@@ -134,14 +187,25 @@
 						<h4 class=" w-[15ch]">Time needed</h4>
 						<input class="min-w-0 w-[10rem] rounded-xl" type="date" placeholder="date" bind:value={date} required />
 					</div>
-					<div class="flex max-md:flex-col md:items-center gap-3 md:gap-10">
+					<div class="flex max-md:flex-col md:items-start gap-3 md:gap-10">
 						<h4 class="w-[15ch]">Attachements</h4>
 						<div class="w-full flex flex-col gap-5">
-							<div class="h-[6rem] flex flex-col items-center justify-center gap-3 ring-1 ring-gray-500 rounded-xl p-3 w-full"></div>
-							<button class="flex gap-3 ring-1 px-3 py-1 rounded-lg ring-gray-500 ml-auto">
-								<img class="w-5" src="/general/upload.svg" alt="" />
-								<p>upload file</p>
-							</button>
+							<div class="min-h-[6rem] flex flex-wrap gap-1 ring-1 ring-gray-500 rounded-xl p-3 w-full">
+								{#if proposal.attachments}
+									{#each proposal.attachments as file}
+										<div class="me-1 mb-1">
+											<img class="w-12" src={`/fileTypes/${getFileType(file.kind)}.svg`} alt="" />
+										</div>
+									{/each}
+								{/if}
+							</div>
+							<div class="flex justify-between mt-1 items-center">
+								<input on:change={() => saveFile()} class="rounded-lg hidden" id="fileInput" type="file" multiple bind:this={fileInput} />
+								<label for="fileInput" class="ml-auto cursor-pointer flex items-center gap-2 px-5 py-1 border ring-1 ring-gray-500 rounded-lg">
+									<img src="/general/upload.svg" alt="" />
+									{uploading ? 'uploading...' : 'Upload Files'}
+								</label>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -3,6 +3,7 @@
 	let activePage = 0;
 	let progressCount = 0;
 	let showenPages = new Array(5).fill(1).map((_, i) => i + 1);
+	import {filters} from '$lib/stores/filters.js';
 	const changeState = (direction) => {
 		if (direction === 1) {
 			return activePage < 2 || progressCount >= pages - 5;
@@ -11,6 +12,7 @@
 		}
 	};
 	const navigateGigs = (direction) => {
+		$filters.query = $filters.query;
 		if (changeState(direction)) {
 			activePage += direction;
 		} else {
