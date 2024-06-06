@@ -1,5 +1,8 @@
 <script>
 	export let cardInfo;
+	import { user, id} from "$lib/stores/Session.js"
+	import { goto } from '$app/navigation';
+	
 </script>
 
 <div class="card bg-white rounded-[2.5rem] relative shadow-lg p-5 pb-[60px] h-fit">
@@ -16,7 +19,9 @@
 	<div class="decoration"></div>
 	<div class="my-buttons justify-center items-center gap-2 hidden">
 		<button>Message</button>
-		<button>View Profile</button>
+		<button on:click={() => {
+			goto(`/${$user.role}/profile/${$id}`)
+		}}>View Profile</button>
 	</div>
 </div>
 
