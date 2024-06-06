@@ -5,12 +5,9 @@
   import { session } from "$lib/stores/Session.js";
   import { fly, fade } from "svelte/transition";
   import makeQuery from "$lib/util/makeQuery.js";
-  import { createFreelancerQuery } from "$lib/util/queries.js";
+  import { createClientQuery } from "$lib/util/queries.js";
   import { goto } from "$app/navigation";
 
-  onMount(() => {
-    $session = "register";
-  });
 
   let job;
   let userName;
@@ -18,19 +15,17 @@
   let firstName;
   let email;
   let password;
-  let userSkills;
   let telephone;
   let wilaya;
   let picture;
   let oauth;
   let valid = false;
   let description = "";
-  $: valid = description != "";
+  $: valid = description != "" && bio != "";
   let birthday;
-  let tags;
+  let interests;
   let bio;
   let ccp;
-
   function saveUserDescription() {
     sessionStorage.setItem("userDescription", JSON.stringify(description));
   }
@@ -67,10 +62,6 @@
     if (savedPass) {
       password = JSON.parse(savedPass);
     }
-    const savedSkills = sessionStorage.getItem("userSkills");
-    if (savedSkills) {
-      userSkills = JSON.parse(savedSkills);
-    }
     const savedPhone = sessionStorage.getItem("telephone");
     if (savedPhone) {
       telephone = JSON.parse(savedPhone);
@@ -86,6 +77,10 @@
     const savedBirthday = sessionStorage.getItem("Birthday");
     if (savedBirthday) {
       birthday = JSON.parse(savedBirthday);
+    }
+    const savedInterests = sessionStorage.getItem("userInterests");
+    if (savedInterests) {
+      interests = JSON.parse(savedInterests);
     }
     const savedCCP = sessionStorage.getItem("CCP");
     if (savedCCP) {
@@ -116,8 +111,9 @@
   async function register() {
     try {
       const oauth = sessionStorage.oauth;
+      console.log(interests);
       const res = await makeQuery(
-        createFreelancerQuery,
+        createClientQuery,
         {
           input: {
             ccp: ccp,
@@ -133,19 +129,16 @@
             bio: bio,
             photo: picture,
           },
-          skills: userSkills,
+          interests: interests,
         },
         {
           "Content-Type": "application/json",
         }
       );
       console.log(res);
-      const data = res.data.createFreelancer;
+      const data = res.data.createClient;
       const id = data.id;
       const role = data.role;
-      console.log(id);
-
-      
       // console.log(
       //   JSON.stringify({
       //     id: id,
@@ -173,7 +166,7 @@
     } catch (err) {
       console.log(err);
     }
-    // sessionStorage.clear();
+    sessionStorage.clear();
   }
 
   // async function fetchAndDisplayImage() {
@@ -211,17 +204,6 @@
           <p class="text-[12px] leading-3 text-[#ABABAB]">{job}</p>
         </div>
       </div>
-      <!-- <input
-        type="number"
-        name="user_rate"
-        id=""
-        placeholder="Give us your rate"
-        required
-        min="0"
-        class="w-full 2xl:text-400"
-        bind:value={rate}
-        on:input={saveUserRate}
-      /> -->
       <textarea
         name="Description"
         id=""
@@ -311,17 +293,6 @@
   * {
     font-family: "DM Sans", sans-serif;
   }
-
-  /* Hide the default arrow controls */
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  input[type="number"] {
-    -moz-appearance: textfield; /* Firefox */
-  }
-
   .image {
     background-image: url("/register/RectangleSmall.png");
     background-size: cover;

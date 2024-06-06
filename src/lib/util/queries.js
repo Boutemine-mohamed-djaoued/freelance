@@ -5,13 +5,23 @@ const loginQuery = `mutation Login($email: String, $password: String) {
       token
       user {
         id
+        role
+        firstName
+        lastName
+        photo
       }
     }
   }`
 
-const createFreelancerQuery = `mutation CreateFreelancer($input: Input!) {
-  createFreelancer(input: $input) {
-    token
+const createFreelancerQuery = `mutation CreateFreelancer($input: Input!, $skills: [String]) {
+  createFreelancer(input: $input, skills: $skills) {
+    id
+    firstName
+    email
+    lastName
+    role
+    photo
+    jobTitle
   }
 }`
 const postJob = `mutation PostJob($input: jobInput!, $user: ID!) {
@@ -282,9 +292,140 @@ const createReport = `mutation CreateReport($type: ReportType!, $description: St
 const addWeight = `mutation AddWeight($addWeightId: ID, $jobid: ID) {
   addWeight(id: $addWeightId, jobid: $jobid)
 }`
+
+const createClientQuery = `mutation CreateClient($input: Input!, $interests: [String]) {
+  createClient(input: $input, interests: $interests) {
+    id
+    firstName
+    photo
+    role
+    lastName
+  }
+}`;
+
+const FreelancerProfileQuery = `query FreelancerProfile($freelancerProfileId: ID) {
+  freelancerProfile(id: $freelancerProfileId) {
+    comments {
+      client {
+        email
+        firstName
+        id
+        lastName
+        jobTitle
+        photo
+      }
+      comment
+      job
+      score
+      createdAt
+    }
+    freelancer {
+      bio
+      ccp
+      createdAt
+      dateOfBirth
+      description
+      email
+      firstName
+      id
+      jobTitle
+      lastName
+      moneyMade
+      phoneNumber
+      photo
+      role
+      skills
+      willaya
+    }
+  }
+}`;
+
+const ClientProfileQuery = `query ClientProfile($clientProfileId: ID) {
+  clientProfile(id: $clientProfileId) {
+    client {
+      bio
+      ccp
+      dateOfBirth
+      createdAt
+      description
+      email
+      firstName
+      id
+      interests
+      jobTitle
+      lastName
+      phoneNumber
+      moneySpent
+      photo
+      role
+      willaya
+    }
+    comments {
+      comment
+      createdAt
+      freelancer {
+        firstName
+        id
+        lastName
+        jobTitle
+        email
+        photo
+      }
+      job
+      score
+    }
+  }
+}`
+
+const FreelancerResetPasswordQuery = `mutation ResetFreelancerPassword($newpass: String!, $resetFreelancerPasswordId: String, $oldpass: String!) {
+  resetFreelancerPassword(newpass: $newpass, id: $resetFreelancerPasswordId, oldpass: $oldpass)
+}`;
+
+const UpdateFreelancerCCP = `mutation UpdateFreelancer($input: update, $updateFreelancerId: ID) {
+  updateFreelancer(input: $input, id: $updateFreelancerId) {
+    message
+  }
+}`
+
+const UpdateFreelancerBirthday = `mutation UpdateFreelancer($input: update, $updateFreelancerId: ID) {
+  updateFreelancer(input: $input, id: $updateFreelancerId) {
+    message
+  }
+}`
+
+const UpdateFreelancerHead = `mutation UpdateFreelancer($input: update, $updateFreelancerId: ID) {
+  updateFreelancer(input: $input, id: $updateFreelancerId) {
+    message
+  }
+}`
+
+const forgetPassword = `query Query($email: String) {
+  forgotPassword(email: $email)
+}`
+
+const verifyResetToken =`query Query($pass: String, $token: String, $verifyResetTokenId: ID) {
+  verifyResetToken(pass: $pass, token: $token, id: $verifyResetTokenId)
+}`
+
+const updateClientBirthday = `mutation UpdateClient($updateClientId: ID, $input: update) {
+  updateClient(id: $updateClientId, input: $input) {
+    message
+  }
+}`
+
+const updateClientCCP = `mutation UpdateClient($updateClientId: ID, $input: update) {
+  updateClient(id: $updateClientId, input: $input) {
+    message
+  }
+}`
+
+const updateClientHead = `mutation UpdateClient($updateClientId: ID, $input: update) {
+  updateClient(id: $updateClientId, input: $input) {
+    message
+  }
+}`
+
 export {
-  loginQuery,
-  createFreelancerQuery,
   postJob,
   freelancerFeed,
   postProposal,
@@ -299,5 +440,19 @@ export {
   getChargilyLink,
   freelancerUploadFiles,
   createReport,
-  addWeight
+  addWeight,
+  loginQuery,
+  createFreelancerQuery,
+  FreelancerProfileQuery,
+  createClientQuery,
+  FreelancerResetPasswordQuery,
+  UpdateFreelancerCCP,
+  forgetPassword,
+  verifyResetToken,
+  ClientProfileQuery,
+  updateClientBirthday,
+  updateClientCCP,
+  updateClientHead,
+  UpdateFreelancerBirthday,
+  UpdateFreelancerHead,
 };

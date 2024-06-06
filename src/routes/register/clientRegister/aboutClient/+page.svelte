@@ -2,8 +2,6 @@
   import { onMount } from "svelte";
   import LeftSide from "$lib/components/register/LeftSide.svelte";
   import MainBtn from "$lib/components/ui/MainButton.svelte";
-  import { jobStore } from "$lib/stores/register.js";
-  import { fly, fade } from "svelte/transition";
   import Tags from "svelte-tags-input";
 
   let job;
@@ -13,13 +11,16 @@
   let validCPP = true;
 
   $: valid =
-    job !== "" && tags.length > 0 && birthday !== "" && CCP.length == 20;
+    (job !== "") !== "" &&
+    tags.length > 0 &&
+    birthday !== "" &&
+    CCP.length == 20;
 
-  function saveUserSkills() {
-    sessionStorage.setItem("userSkills", JSON.stringify(tags));
-  }
   function saveUserJob() {
     sessionStorage.setItem("userJob", JSON.stringify(job));
+  }
+  function saveUserInterests() {
+    sessionStorage.setItem("userInterests", JSON.stringify(tags));
   }
   function saveUserBirthday() {
     sessionStorage.setItem("Birthday", JSON.stringify(birthday));
@@ -41,9 +42,9 @@
     if (savedCCP) {
       CCP = JSON.parse(savedCCP);
     }
-    const savedSkills = sessionStorage.getItem("userSkills");
-    if (savedSkills) {
-      tags = JSON.parse(savedSkills);
+    const savedInterests = sessionStorage.getItem("userInterests");
+    if (savedInterests) {
+      tags = JSON.parse(savedInterests);
     }
   }
   let oauth;
@@ -59,7 +60,7 @@
     loadFormData();
     oauth = sessionStorage.oauth;
   });
-  
+
   function checkCPP() {
     if (CCP.length != 20) {
       validCPP = false;
@@ -77,39 +78,13 @@
 
   function JobFunctions() {
     saveUserJob();
-    saveUserSkills();
+    saveUserInterests();
     saveUserBirthday();
     checkCPP();
     saveUserCCP();
   }
 
-  const skills = [
-    "IOS",
-    "Android",
-    "React Native",
-    "Flutter",
-    "HTML",
-    "CSS",
-    "React",
-    "Express",
-    "NodeJS",
-    "Angular",
-    "Vue",
-    "SvelteKit",
-    "Photoshop",
-    "Illustrator",
-    "Figma",
-    "Sketch",
-    "Content Writing",
-    "Blog Writing",
-    "Copy Writing",
-    "Editing",
-    "Financial Auditing",
-    "Compliance",
-    "IT Auditing",
-    "Forensic Auditing",
-"PHP"
-  ];
+  const interests = ["WebDev", "Writing", "Auditing", "Design", "Mobile"];
 
   function handleKeyDown(event) {
     if (event.key === "Enter") {
@@ -118,7 +93,7 @@
   }
 </script>
 
-<!-- <link rel="stylesheet" href="./test/svelte-tags-input-css.css"> -->
+<!-- <link rel="stylesheet" href="./test/svelte-interests-input-css.css"> -->
 
 <div class="flex full-width h-[100vh] bg-transparent max-lg:flex-col">
   <LeftSide number="3"></LeftSide>
@@ -160,8 +135,8 @@
             splitWith={"/"}
             onlyUnique={true}
             removeKeys={[27]}
-            placeholder={"Skills"}
-            autoComplete={skills}
+            placeholder={"Interests"}
+            autoComplete={interests}
             name={"custom-name"}
             id={"custom-id"}
             allowBlur={true}
@@ -191,18 +166,23 @@
         {#if valid}
           <a
             href={oauth == 1
-              ? "/register/freelancerRegister/finishProfile"
-              : "/register/freelancerRegister/uploadPicture"}
+              ? "/register/clientRegister/finishProfile"
+              : "/register/clientRegister/uploadPicture"}
           >
             <MainBtn title="Continue" customClass="btn-1" />
           </a>
-          <a href="/register/freelancerRegister" class="text-[#BE2AB1] font-semibold"> Back </a>
+          <a
+            href="/register/clientRegister"
+            class="text-[#BE2AB1] font-semibold"
+          >
+            Back
+          </a>
         {:else}
           <div on:click={JobFunctions}>
             <MainBtn title="Continue" customClass="btn-1" />
           </div>
           <a
-            href="/register/freelancerRegister"
+            href="/register/clientRegister"
             class="text-[#BE2AB1] font-semibold"
           >
             Back
@@ -235,29 +215,4 @@
   .my-custom-class :global(.svelte-tags-input-tag) {
     background: #be2ab1 !important;
   }
-  /* 
-  .my-custom-class :global(.svelte-tags-input-layout:focus){
-    border: solid 1px #BE2AB1 !important;
-  }
-
-  .my-custom-class:focus, .my-custom-class:hover {
-    border: solid 1px #BE2AB1 !important;
-  } */
-
-  /* .my-custom-class :global(.svelte-tags-input-layout.focus) {
-	background:yellow !important; 
-  border: solid #c499f3 1px !important;
-  
-
-}
-.my-custom-class :global(.svelte-tags-input-tag.focus), .my-custom-class :global(.svelte-tags-input:focus) {
-	background:blue;
-  border: none !important ; 
-
-}
-.svelte-11hsw7b{
-  border: solid #c499f3 1px !important;
-
-}
- */
 </style>

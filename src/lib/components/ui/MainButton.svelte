@@ -8,7 +8,7 @@
 </script>
 
 <button
-  class="height bg-[#BE2AB1] text-white rounded-md  text-250/4 flex justify-center items-center {customClass}"
+  class="height {customClass} bg-[#BE2AB1] text-white   text-250/4 flex justify-center items-center "
   
   style="width: {customWidth}; height: {customHeight} ; box-shadow: {customBoxShadow} ;"
   type={type}
@@ -26,11 +26,18 @@
     font-family: "DM Sans", sans-serif;
 
   }
+  .btn-2 {
+    /* width: max(14ch, 10vw); */
+    font-family: "DM Sans", sans-serif;
+    color:#BE2AB1;
+    font-weight: 900;
+  }
   .height {
     /* height: max(clamp(1.8rem, calc(1.6rem + 1.3vw), 4rem), 5vh); */
     /* height: 35px; */
     padding:0 14px;
     font-size: 14px;
     line-height: 35px;
+    border-radius: 4px;
 }
 </style>

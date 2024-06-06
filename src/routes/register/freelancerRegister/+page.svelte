@@ -1,15 +1,10 @@
 <script>
   import { onMount } from "svelte";
-  import LeftSide from "../../components/register/LeftSide.svelte";
-  import MainBtn from "../../../lib/components/ui/MainButton.svelte";
-  
-  $: userName = firstName + " " + lastName;
+  import LeftSide from "$lib/components/register/LeftSide.svelte";
+  import MainBtn from "$lib/components/ui/MainButton.svelte";
+  import { fly } from "svelte/transition";
 
-  function addUserName() {
-    userNameStore.update(() => {
-      return userName;
-    });
-  }
+  $: userName = firstName + " " + lastName;
 
   let firstName;
   let lastName = "";
@@ -18,14 +13,18 @@
   let validMail = true;
   let password = "";
   let isStrongPassword = true;
-  let select = "";
+  let wilaya = "";
   let telephone = "";
   function validateEmail() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (emailRegex.test(email)) {
       validMail = true;
     } else {
-      validMail = false;
+      if (oauth == "1") {
+        validMail = true;
+      } else {
+        validMail = false;
+      }
     }
   }
 
@@ -47,15 +46,14 @@
   }
   let checkPasswordStrength = () => {
     // Set isStrongPassword based on the criteria
-    isStrongPassword = isUppercase && isLowercase && hasNumber && isLongEnough;
+    isStrongPassword = isUppercase && isLowercase && hasNumber && isLongEnough || oauth == "1";
   };
-
   $: valid =
     fullname !== "" &&
     isStrongPassword &&
-    select !== "" &&
+    wilaya !== "" &&
     telephone !== "" &&
-    email !== "" &&
+    (email !== "" || oauth == "1") &&
     validMail;
 
   const wilayas = [
@@ -142,6 +140,9 @@
   function saveUserTelephone() {
     sessionStorage.setItem("telephone", JSON.stringify(telephone));
   }
+  function saveUserWilaya() {
+    sessionStorage.setItem("wilaya", JSON.stringify(wilaya));
+  }
 
   function loadFormData() {
     const savedFirstName = sessionStorage.getItem("firstName");
@@ -160,23 +161,39 @@
     if (savedTelephone) {
       telephone = JSON.parse(savedTelephone);
     }
-    const savedPassword = sessionStorage.getItem("password")
-    if (savedPassword){
+    const savedPassword = sessionStorage.getItem("password");
+    if (savedPassword) {
       password = JSON.parse(savedPassword);
     }
   }
-  onMount(loadFormData);
+  // let flyParams;
+  // const handleResize = () => {
+  //   if (window.innerWidth <= 1024) {
+  //     flyParams = { x: 100 };
+  //   } else {
+  //     flyParams = { y: 100 };
+  //   }
+  // };
+  let oauth;
+  let gettedMail = false;
+  onMount(() => {
+    loadFormData();
+    handleResize();
+    oauth = sessionStorage.oauth;
+  });
 
 </script>
 
-<div class="flex full-width h-[100vh] bg-transparent max-lg:flex-col max-lg:">
+<div
+  class="flex full-width h-[100vh] bg-transparent max-lg:flex-col max-lg:"
+>
   <LeftSide number="2"></LeftSide>
   <div class="lg:hidden image h-[40%]"></div>
   <div
     class="mx-auto max-lg:w-[60%] max-sm:w-[80%] w-[35%] my-auto flex flex-col gap-5"
   >
     <h1 class="text-500 font-medium">Create an account</h1>
-    <form action="" method="get" class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4">
       <div class="data">
         <div class="flex gap-3">
           <input
@@ -200,20 +217,32 @@
             on:input={saveUserLastName}
           />
         </div>
-        <input
-          type="email"
-          name="email"
-          id=""
-          placeholder="Email Address"
-          class="w-full"
-          required
-          bind:value={email}
-          on:input={saveUserEmail}
-        />
+        <!-- svelte-ignore empty-block -->
+        {#if oauth == 1}
+          <input
+            readonly
+            type="email"
+            name="email"
+            class="w-full"
+            placeholder={JSON.parse(sessionStorage.email)}
+          />
+        {:else}
+          <input
+            type="email"
+            name="email"
+            id=""
+            placeholder="Email Address"
+            class="w-full"
+            required
+            bind:value={email}
+            on:input={saveUserEmail}
+          />
+        {/if}
         {#if !validMail}
           <p class="text-red-600 text-250 ml-4">please enter a valid mail</p>
         {/if}
         <input
+          class:hidden={oauth == "1"}
           type="password"
           name="password"
           id=""
@@ -222,7 +251,6 @@
           required
           bind:value={password}
           on:input={saveUserPassword}
-          
         />
         {#if !isStrongPassword}
           {#if !isLongEnough}
@@ -248,9 +276,10 @@
           name="wilaya"
           id=""
           required
-          bind:value={select}
+          bind:value={wilaya}
           class="w-full my-3"
           on:click={checkPasswordStrength}
+          on:change={saveUserWilaya}
         >
           <option value="" disabled selected>-Select wilaya-</option>
           {#each wilayas as wilaya}
@@ -264,6 +293,8 @@
           type="tel"
           name="phoneNumber"
           id=""
+          min="10"
+          max="10"
           placeholder="Phone number"
           class="w-full"
           required
@@ -282,19 +313,21 @@
         }}
       >
         {#if valid}
-          <a href="/register/freelancerRegister/aboutFreelancer" on:click={checkPasswordStrength}>
+          <a
+            href="/register/freelancerRegister/aboutFreelancer"
+          >
             <MainBtn title="Continue" customClass="btn-1" type="submit" />
           </a>
           <a href="/register" class="text-[#BE2AB1] font-semibold"> Back </a>
         {:else}
-        <div on:click={checkPasswordStrength}>
-          <MainBtn title="Continue" customClass="btn-1" type=""/>
-        </div>
+          <div>
+            <MainBtn title="Continue" customClass="btn-1" type="" />
+          </div>
           <a href="/register" class="text-[#BE2AB1] font-semibold"> Back </a>
         {/if}
       </div>
-    </form>
-  </div>        
+    </div>
+  </div>
 </div>
 
 <style>

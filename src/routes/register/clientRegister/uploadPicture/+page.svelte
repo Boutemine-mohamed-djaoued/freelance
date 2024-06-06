@@ -4,45 +4,22 @@
   import MainBtn from "$lib/components/ui/MainButton.svelte";
   import { fly, fade } from "svelte/transition";
 
-
   let selectedFile = null;
 
-  // import 'cropperjs/dist/cropper.css';
-  // import Cropper from 'cropperjs';
-  let cropper;
-  // onMount(() => {
-  //   const image = document.getElementById('image');
-  //   cropper = new Cropper(image, {
-  //     aspectRatio: 10 / 9,
-  //     crop(event) {
-  //       console.log(event.detail.x);
-  //       console.log(event.detail.y);
-  //       console.log(event.detail.width);
-  //       console.log(event.detail.height);
-  //       console.log(event.detail.rotate);
-  //       console.log(event.detail.scaleX);
-  //       console.log(event.detail.scaleY);
+  // let flyParams;
+  // const handleResize = () => {
+  //     if (window.innerWidth <= 1024) {
+  //       flyParam s = { x: 100 };
+  //     } else {
+  //       flyParams = { y: 100 };
   //     }
-  //   });
-  // });
-  // function cropImage() {
-  //   const croppedCanvas = cropper.getCroppedCanvas();
-  //   const croppedImageDataUrl = croppedCanvas.toDataURL();
+  //   }
+  onMount(() => {
+    // handleResize(); 
 
-  //   // Create a temporary link element to trigger the download
-  //   const link = document.createElement('a');
-  //   link.href = croppedImageDataUrl;
-  //   link.download = 'cropped_image.png';
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   document.body.removeChild(link);
-  // }
-  function change(e){
-    fileSelect(e);
-    // cropImage();
-  }
+  });
   function fileSelect(e) {
-    const url = URL.createObjectURL(e.target.files[0])
+    const url = URL.createObjectURL(e.target.files[0]);
     sessionStorage.picture = JSON.stringify(url);
     selectedFile = url;
   }
@@ -55,27 +32,27 @@
     class="mx-auto my-auto flex justify-center items-center gap-5 overflow-hidden"
   >
     <div
-      class="circle lg:h-[min(50vw,100vh)] lg:w-[min(50vw,100vh)] max-lg:h-[min(100vw,60vh)] max-lg:w-[min(100vw,60vh)]  "
+      class="circle lg:h-[min(50vw,100vh)] lg:w-[min(50vw,100vh)] h-[100vw] w-[100vw]"
     >
-      <h1 class="font-medium absolute top-[20%] max-sm:top-[15%] text-400 2xl:text-600 2xl:top-[27%] xl:text-500 lg:text-400">
+      <h1 class="font-medium absolute top-[20%] text-400 2xl:text-600">
         Upload your profile picture
       </h1>
       <div class="circle-inner relative">
-        <div class="flex gap-4 items-center absolute bottom-[8%] max-sm:bottom-0 max-lg:bottom-[12%] xl:bottom-[15%] 2xl:bottom-[20%]">
+        <div class="flex gap-4 items-center absolute bottom-[8%]">
           {#if selectedFile}
-            <a href="/register/freelancerRegister/finishProfile">
+            <a href="/register/clientRegister/finishProfile">
               <MainBtn title="Continue" customClass="btn-1" type="submit" />
             </a>
             <a
-              href="/register/freelancerRegister/aboutFreelancer"
+              href="/register/clientRegister/aboutClient"
               class="text-[#BE2AB1] font-semibold"
             >
               Back
             </a>
           {:else}
-            <MainBtn title="Continue" customClass="btn-1" type="submit" />
+            <MainBtn title="Continue" customClass="btn-1" type="" />
             <a
-              href="/register/freelancerRegister/aboutFreelancer"
+              href="/register/clientRegister/aboutClient"
               class="text-[#BE2AB1] font-semibold"
             >
               Back
@@ -88,7 +65,6 @@
             <img
               src={selectedFile || "/register/UserImage.png"}
               alt="user-image"
-              id="image"
               class="rounded-full cursor-pointer w-[170px] h-[170px] bg-white"
             />
           </label>
@@ -100,31 +76,10 @@
             capture
             class="hidden"
             required
-            on:change={change}
+            on:change={fileSelect}
           />
         </div>
       </div>
-      <!-- <div class="flex gap-4 items-center absolute bottom-[15%]">
-        {#if selectedFile}
-          <a href="/register/freelancerRegister/finishProfile">
-            <MainBtn title="Continue" customClass="btn-1" type="submit" />
-          </a>
-          <a
-            href="/register/freelancerRegister/aboutFreelancer"
-            class="text-[#BE2AB1] font-semibold"
-          >
-            Back
-          </a>
-        {:else}
-          <MainBtn title="Continue" customClass="btn-1" type="submit" />
-          <a
-            href="/register/freelancerRegister/aboutFreelancer"
-            class="text-[#BE2AB1] font-semibold"
-          >
-            Back
-          </a>
-        {/if}
-      </div> -->
     </div>
   </div>
 </div>
@@ -169,15 +124,15 @@
   }
 
   /* .circle-inner-inner-inner {
-    width: 80%;
-    height: 80%;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 4;
-    animation: colorTransition4 5s infinite alternate;
-  } */
+      width: 80%;
+      height: 80%;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 4;
+      animation: colorTransition4 5s infinite alternate;
+    } */
 
   @keyframes colorTransition {
     0% {
@@ -212,15 +167,4 @@
       background-color: #8d00bb03;
     }
   }
-  /* @keyframes colorTransition4 {
-    0% {
-      background-color: #e74c3c;
-    }
-    50% {
-      background-color: #f39c12;
-    }
-    100% {
-      background-color: #3498db;
-    }
-  } */
 </style>
