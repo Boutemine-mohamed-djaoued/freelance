@@ -24,9 +24,9 @@
 		{#if !$doneJob}
 			<a href="/client/payment" class="bg-primary-300 text-white py-4 w-full rounded-md inline-block text-center font-semibold">Finish Job</a>
 		{:else if !$job.clientReview}
-			<button on:click={() => reviewFreelancer()} class="bg-primary-300 text-white py-4 w-full rounded-md inline-block text-center font-semibold">review freelancer</button>
+			<button on:click={() => reviewFreelancer()} class="bg-primary-300 text-white py-4 w-full rounded-md inline-block text-center font-semibold">Review Freelancer</button>
 		{:else}
-			<button class="bg-primary-400 text-white py-4 w-full rounded-md inline-block text-center font-semibold">Already reviewed</button>
+			<button class="bg-primary-400 text-white py-4 w-full rounded-md inline-block text-center font-semibold">Already Reviewed</button>
 		{/if}
 		<button
 			on:click={() => {
@@ -65,7 +65,7 @@
 		<div class="client-profile relative isolate">
 			<h2 class="text-500 font-medium">Freelancer Profile</h2>
 			<div class="flex items-center mt-5">
-				<img class="m-3" src="/defaultProfile.svg" alt="" />
+				<img class="m-3 w-12 rounded-full aspect-square"  src={$job.details.photo || "/defaultProfile.svg"} alt="" />
 				<div>
 					<p>{$job.details.firstName + ' ' + $job.details.lastName}</p>
 					<p class="text-gray-400">{$job.details.jobTitle}</p>

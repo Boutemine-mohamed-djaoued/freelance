@@ -1,15 +1,7 @@
 import { writable } from "svelte/store";
-
-export let session = writable("freelancer");
-export let user = writable({
-  firstName: "mohamed" ,
-  lastName: "djawad",
-  picture : "/defaultProfile.svg"
-});
+import { getSessionStorageItem, setSessionStorageItem } from '$lib/util/sessionStorage.js';
 //client
 
-export let id = writable("7d075583b56e4ba29c18d4b33b10c9fe");
-export let token = writable("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdkMDc1NTgzYjU2ZTRiYTI5YzE4ZDRiMzNiMTBjOWZlIiwidHlwZSI6InVzZXIiLCJiYW5uZWQiOmZhbHNlLCJpYXQiOjE3MTc1NDk0MzgsImV4cCI6MTcyMDE0MTQzOH0.jOSNRdczGQ9-Jsa2ZzOduCktLERi7RXtj5pa4RieGVs");
 
 // freelancer
 
@@ -21,4 +13,40 @@ export let token = writable("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdkMD
 
 // meliani tarek
 
-export let id2 = "2bc8ec9eca5a49fd9536e465d2e88ff8";
+
+const storedSession = getSessionStorageItem('mySession', "default");
+export const session = writable(storedSession);
+
+session.subscribe((value) => {
+  setSessionStorageItem('mySession', value);
+});
+
+const storedUser = getSessionStorageItem('myUser', null);
+export const user = writable(storedUser);
+
+user.subscribe((value) => {
+  setSessionStorageItem('myUser', value);
+});
+
+const storedId = getSessionStorageItem('myId', null);
+export const id = writable(storedId);
+
+id.subscribe((value) => {
+  setSessionStorageItem('myId', value);
+});
+
+let tarek = null;
+id.subscribe((value) => {
+  if (value) tarek = value;
+})
+export let id2 = tarek;
+
+
+
+const storedToken = getSessionStorageItem('myToken', null);
+export const token = writable(storedToken);
+
+token.subscribe((value) => {
+  setSessionStorageItem('myToken', value);
+});
+

@@ -27,9 +27,9 @@
     </div>
     <div class="image-container relative mb-3 ">
       <img
-        src="/register\UserImage.png"
+        src={ user.pfp || "/register\UserImage.png"}
         alt=""
-        class="profile-image image mx-auto -translate-y-[50%]"
+        class="profile-image rounded-full aspect-square image mx-auto -translate-y-[50%]"
       />
       <!-- dimension -->
     </div>

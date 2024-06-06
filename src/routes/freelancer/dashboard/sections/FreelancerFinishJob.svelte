@@ -78,7 +78,7 @@
 {#if $job}
 	<section class="min-h-[100vh - 5rem] h-full max-md:w-[100vw] bg-gray-100 p-10 lg:min-w-[28rem]">
 		{#if !$job.freelancerReview}
-			<button on:click={() => reviewFreelancer()} class="bg-primary-300 text-white py-4 w-full rounded-md inline-block text-center font-semibold">review client</button>
+			<button on:click={() => reviewFreelancer()} class="bg-primary-300 text-white py-4 w-full rounded-md inline-block text-center font-semibold">Review Client</button>
 		{:else}
 			<button class="bg-primary-400 text-white py-4 w-full rounded-md inline-block text-center font-semibold">Already reviewed</button>
 		{/if}
@@ -124,7 +124,7 @@
 		<div class="client-profile relative isolate">
 			<h2 class="text-500 font-medium">Client Profile</h2>
 			<div class="flex items-center mt-5">
-				<img class="m-3" src="/defaultProfile.svg" alt="" />
+				<img class="m-3 w-12 rounded-full aspect-square" src={$job.details.photo || "/defaultProfile.svg"} alt="" />
 				<div>
 					<p>{$job.details.firstName + ' ' + $job.details.lastName}</p>
 					<p class="text-gray-400">{$job.details.jobTitle}</p>

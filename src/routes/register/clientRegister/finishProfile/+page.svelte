@@ -6,9 +6,8 @@
   import { fly, fade } from "svelte/transition";
   import makeQuery from "$lib/util/makeQuery.js";
   import { createClientQuery } from "$lib/util/queries.js";
+	import {MS} from "$lib/util/consts.js"
   import { goto } from "$app/navigation";
-
-
   let job;
   let userName;
   let lastName;
@@ -72,7 +71,7 @@
     }
     const savedPicture = sessionStorage.getItem("picture");
     if (savedPicture) {
-      picture = JSON.parse(savedPicture);
+      picture = savedPicture;
     }
     const savedBirthday = sessionStorage.getItem("Birthday");
     if (savedBirthday) {
@@ -139,23 +138,21 @@
       const data = res.data.createClient;
       const id = data.id;
       const role = data.role;
-      // console.log(
-      //   JSON.stringify({
-      //     id: id,
-      //     userName: data.firstName + " " + data.lastName,
-      //     type: data.role,
-      //   })
-      // );
-      // const chattingResposne = await fetch("http://192.168.93.243:8080/users", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({
-      //     id: id,
-      //     username: data.firstName + " " + data.lastName,
-      //     type: data.role,
-      //     pfp: data.photo,
-      //   }),
-      // });
+
+      try {
+        const chattingResposne = await fetch(`${MS}/users`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: id,
+            username: data.firstName + " " + data.lastName,
+            type: data.role,
+            pfp: data.photo,
+          }),
+        });
+      } catch (err) {
+        console.log(err);
+      }
       if (res.errors) {
         throw res.errors;
       }
@@ -186,32 +183,17 @@
 <div class="flex full-width h-[100vh] bg-transparent max-lg:flex-col">
   <LeftSide number="5"></LeftSide>
   <div class="lg:hidden image h-[40%]"></div>
-  <div
-    class="mx-auto my-auto flex justify-center items-center gap-5 max-lg:w-[60%] max-sm:w-[80%] w-[30%] max-lg:items-start"
-  >
+  <div class="mx-auto my-auto flex justify-center items-center gap-5 max-lg:w-[60%] max-sm:w-[80%] w-[30%] max-lg:items-start">
     <div class="flex flex-col gap-4 w-full">
-      <h1 class="text-500/6 font-normal my-[5%] px-4 w-full">
-        Finish your profile
-      </h1>
+      <h1 class="text-500/6 font-normal my-[5%] px-4 w-full">Finish your profile</h1>
       <div class="user_info flex gap-3 items-center w-full">
-        <img
-          src={picture}
-          alt="profile_image"
-          class="w-[6vw] min-w-[90px] rounded-full"
-        />
+        <img src={picture} alt="profile_image" class="w-[6vw] min-w-[90px] rounded-full" />
         <div class="">
           <h3 class="font-semibold text-300 2xl:text-400">{userName}</h3>
           <p class="text-[12px] leading-3 text-[#ABABAB]">{job}</p>
         </div>
       </div>
-      <textarea
-        name="Description"
-        id=""
-        placeholder="Description"
-        class="w-full 2xl:text-400"
-        bind:value={description}
-        on:input={saveUserDescription}
-      ></textarea>
+      <textarea name="Description" id="" placeholder="Description" class="w-full 2xl:text-400" bind:value={description} on:input={saveUserDescription}></textarea>
       <textarea
         name="Bio"
         id=""
@@ -221,8 +203,7 @@
 💞️ I’m looking to collaborate on .."
         class="w-full 2xl:text-400"
         bind:value={bio}
-        on:input={saveUserBio}
-      ></textarea>
+        on:input={saveUserBio}></textarea>
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-static-element-interactions -->
       <div class="flex gap-4 items-center w-full">
@@ -231,38 +212,18 @@
             <MainBtn title="Finish" customClass="btn-1" />
           </a>
           {#if oauth == 0}
-            <a
-              href="/register/freelancerRegister/uploadPicture"
-              class="text-[#BE2AB1] font-semibold"
-            >
-              Back
-            </a>
+            <a href="/register/freelancerRegister/uploadPicture" class="text-[#BE2AB1] font-semibold"> Back </a>
           {:else}
-            <a
-              href="/register/freelancerRegister/aboutFreelancer "
-              class="text-[#BE2AB1] font-semibold"
-            >
-              Back
-            </a>
+            <a href="/register/freelancerRegister/aboutFreelancer " class="text-[#BE2AB1] font-semibold"> Back </a>
           {/if}
         {:else}
           <div>
             <MainBtn title="Finish" customClass="btn-1" />
           </div>
           {#if oauth == 0}
-            <a
-              href="/register/freelancerRegister/uploadPicture"
-              class="text-[#BE2AB1] font-semibold"
-            >
-              Back
-            </a>
+            <a href="/register/freelancerRegister/uploadPicture" class="text-[#BE2AB1] font-semibold"> Back </a>
           {:else}
-            <a
-              href="/register/freelancerRegister/aboutFreelancer "
-              class="text-[#BE2AB1] font-semibold"
-            >
-              Back
-            </a>
+            <a href="/register/freelancerRegister/aboutFreelancer " class="text-[#BE2AB1] font-semibold"> Back </a>
           {/if}
         {/if}
       </div>

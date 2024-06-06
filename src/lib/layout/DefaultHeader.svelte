@@ -58,11 +58,11 @@
 						<Dropdown title={'Explore'} options={exploreDropDownContent}></Dropdown>
 					</li>
 					<li>
-						<a href="/freelancer" class=" inline-block max-md:hover:text-primary-300 max-md:w-full p-[0.5em] md:focus-visible:ring-2 ring-black rounded-sm">Log in</a>
+						<a href="/login" class=" inline-block max-md:hover:text-primary-300 max-md:w-full p-[0.5em] md:focus-visible:ring-2 ring-black rounded-sm">Log in</a>
 					</li>
 				</ul>
 			</nav>
-			<a href="/" class="join cursor-pointer md:p-[0.5em] md:ml-5">join</a>
+			<a href="/register" class="join cursor-pointer md:p-[0.5em] md:ml-5">join</a>
 		</div>
 	</div>
 </header>

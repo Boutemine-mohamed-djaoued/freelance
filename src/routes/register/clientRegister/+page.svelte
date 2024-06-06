@@ -5,7 +5,7 @@
   import { fly } from "svelte/transition";
 
   $: userName = firstName + " " + lastName;
-
+  console.log("hello");
   let firstName;
   let lastName = "";
   $: fullname = firstName + lastName;
@@ -47,22 +47,15 @@
   }
   let checkPasswordStrength = () => {
     // Set isStrongPassword based on the criteria
-    isStrongPassword =
-      (isUppercase && isLowercase && hasNumber && isLongEnough) || oauth == "1";
+    isStrongPassword = (isUppercase && isLowercase && hasNumber && isLongEnough) || oauth == "1";
   };
 
-  function checkPhone(){
-    validphone = (telephone.length == 10);
+  function checkPhone() {
+    validphone = telephone.length == 10;
     console.log(validphone);
-  };
+  }
 
-  $: valid =
-    fullname !== "" &&
-    isStrongPassword &&
-    wilaya !== "" &&
-    validphone &&
-    (email !== "" || oauth == "1") &&
-    validMail;
+  $: valid = fullname !== "" && isStrongPassword && wilaya !== "" && validphone && (email !== "" || oauth == "1") && validMail;
 
   const wilayas = [
     { name: "Adrar", nameWithoutSpaces: "Adrar", number: 1 },
@@ -198,120 +191,44 @@
 <div class="flex full-width h-[100vh] bg-transparent max-lg:flex-col max-lg:">
   <LeftSide number="2"></LeftSide>
   <div class="lg:hidden image h-[40%]"></div>
-  <div
-    method="get"
-    action=""
-    class="mx-auto max-lg:w-[60%] max-sm:w-[80%] w-[35%] my-auto flex flex-col gap-5"
-  >
+  <div method="get" action="" class="mx-auto max-lg:w-[60%] max-sm:w-[80%] w-[35%] my-auto flex flex-col gap-5">
     <h1 class="text-500 font-medium">Create an account</h1>
     <div class="flex flex-col gap-4">
       <div class="data">
         <div class="flex gap-3">
-          <input
-            type="text"
-            name="firstName"
-            id=""
-            placeholder="First name"
-            required
-            bind:value={firstName}
-            class="w-full shrink"
-            on:input={saveUserFirstName}
-          />
-          <input
-            type="text"
-            name="familyName"
-            id=""
-            placeholder="Familly name"
-            required
-            bind:value={lastName}
-            class="w-full shrink"
-            on:input={saveUserLastName}
-          />
+          <input type="text" name="firstName" id="" placeholder="First name" required bind:value={firstName} class="w-full shrink" on:input={saveUserFirstName} />
+          <input type="text" name="familyName" id="" placeholder="Familly name" required bind:value={lastName} class="w-full shrink" on:input={saveUserLastName} />
         </div>
         <!-- svelte-ignore empty-block -->
         {#if oauth == 1}
-          <input
-            readonly
-            type="email"
-            name="email"
-            class="w-full"
-            placeholder={JSON.parse(sessionStorage.email)}
-          />
+          <input readonly type="email" name="email" class="w-full" placeholder={JSON.parse(sessionStorage.email)} />
         {:else}
-          <input
-            type="email"
-            name="email"
-            id=""
-            placeholder="Email Address"
-            class="w-full"
-            required
-            bind:value={email}
-            on:input={saveUserEmail}
-          />
+          <input type="email" name="email" id="" placeholder="Email Address" class="w-full" required bind:value={email} on:input={saveUserEmail} />
         {/if}
         {#if !validMail}
           <p class="text-red-600 text-250 ml-4">please enter a valid mail</p>
         {/if}
-        <input
-          class:hidden={oauth == "1"}
-          type="password"
-          name="password"
-          id=""
-          placeholder="Password"
-          class="w-full"
-          required
-          bind:value={password}
-          on:input={saveUserPassword}
-        />
+        <input class:hidden={oauth == "1"} type="password" name="password" id="" placeholder="Password" class="w-full" required bind:value={password} on:input={saveUserPassword} />
         {#if !isStrongPassword}
           {#if !isLongEnough}
-            <p class="text-red-600 text-250 ml-4">
-              Password must contain at least 8 characteres
-            </p>
+            <p class="text-red-600 text-250 ml-4">Password must contain at least 8 characteres</p>
           {:else if !isUppercase}
-            <p class="text-red-600 text-250 ml-4">
-              Password must contain at least one Uppercase char
-            </p>
+            <p class="text-red-600 text-250 ml-4">Password must contain at least one Uppercase char</p>
           {:else if !isLowercase}
-            <p class="text-red-600 text-250 ml-4">
-              Password must contain at least one Lowercase char
-            </p>
+            <p class="text-red-600 text-250 ml-4">Password must contain at least one Lowercase char</p>
           {:else if !hasNumber}
-            <p class="text-red-600 text-250 ml-4">
-              Password must contain at least one number
-            </p>
+            <p class="text-red-600 text-250 ml-4">Password must contain at least one number</p>
           {/if}
         {/if}
 
-        <select
-          name="wilaya"
-          id=""
-          required
-          bind:value={wilaya}
-          class="w-full my-3"
-          on:click={checkPasswordStrength}
-          on:change={saveUserWilaya}
-        >
+        <select name="wilaya" id="" required bind:value={wilaya} class="w-full my-3" on:click={checkPasswordStrength} on:change={saveUserWilaya}>
           <option value="" disabled selected>-Select wilaya-</option>
           {#each wilayas as wilaya}
-            <option value={wilaya.nameWithoutSpaces}
-              >{wilaya.number}- {wilaya.name}</option
-            >
+            <option value={wilaya.nameWithoutSpaces}>{wilaya.number}- {wilaya.name}</option>
           {/each}
         </select>
 
-        <input
-          type="tel"
-          name="phoneNumber"
-          id=""
-          min="10"
-          max="10"
-          placeholder="Phone number"
-          class="w-full"
-          required
-          bind:value={telephone}
-          on:input={saveUserTelephone}
-        />
+        <input type="tel" name="phoneNumber" id="" min="10" max="10" placeholder="Phone number" class="w-full" required bind:value={telephone} on:input={saveUserTelephone} />
         {#if !validphone}
           <p class="text-red-600 text-250 ml-4">not valid phone number</p>
         {/if}
@@ -325,8 +242,7 @@
           validateEmail();
           checkPasswordStrength();
           checkPhone();
-        }}
-      >
+        }}>
         {#if valid}
           <a href="/register/clientRegister/aboutClient">
             <MainBtn title="Continue" customClass="btn-1" />

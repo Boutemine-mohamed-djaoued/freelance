@@ -14,6 +14,7 @@
 		aElement.click();
 		URL.revokeObjectURL(href);
 	}
+
 	job.subscribe((value) => {
 		if (value) {
 			gigIcons = [
@@ -43,15 +44,7 @@
 		<button class="back-button" on:click={() => showDetails.set(0)}>
 			<img class="w-5 md:w-8" src="/general/back.svg" alt="" />
 		</button>
-		<div class="title flex items-center my-5 md:my-10">
-			<div class="w-16 md:w-20 aspect-square rounded-full bg-gray-200">
-				<img class="w-full" src="/defaultProfile.svg" alt="" />
-			</div>
-			<div>
-				<p class="ml-5">{$job.clientInfo.firstName + ' ' + $job.clientInfo.firstName}</p>
-				<h3 class="ml-5 md:text-400">{$job.title}</h3>
-			</div>
-		</div>
+		<h3 class="text-center md:text-400">{$job.title}</h3>
 		<div class="tags flex my-5 md:my-10 justify-around text-gray-500">
 			{#each gigIcons as icon}
 				<div class="">

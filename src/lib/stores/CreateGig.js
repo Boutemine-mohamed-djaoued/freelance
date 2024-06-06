@@ -12,7 +12,7 @@ export let gigData = writable({
   expertize_level: "Intermediate",
   job_size: "Medium",
   payment_structure: "By_Project",
-  attachments: []
+  attachments: [],
 });
 
 // export let createGigData = writable({

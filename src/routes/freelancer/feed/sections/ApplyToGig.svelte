@@ -27,7 +27,7 @@
 		<div class="client-profile pt-4 relative isolate">
 			<h2 class="text-500 font-medium">Client Profile</h2>
 			<div class="flex items-center mt-5">
-				<img class="m-3" src="/defaultProfile.svg" alt="" />
+				<img class="m-3 w-14 rounded-full" src={ $job.clientInfo.photo ||"/defaultProfile.svg"} alt="" />
 				<div>
 					<p>{$job.clientInfo.firstName + ' ' + $job.clientInfo.lastName}</p>
 					<p class="text-gray-400">{$job.clientInfo.jobTitle}</p>

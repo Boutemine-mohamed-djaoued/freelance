@@ -26,9 +26,11 @@
 	};
 	const initChat = async (otherUserId) => {
 		try {
+			console.log($id);
+			console.log(otherUserId);
 			const res = await fetch(`${MS}/room/initiate`, {
 				method: 'POST',
-				header: {
+				headers: {
 					'Content-Type': 'application/json',
 					Authorization: 'hello'
 				},
@@ -36,6 +38,7 @@
 					userIds: [$id, otherUserId]
 				})
 			});
+			console.log(res);
 			goto('/messeges');
 		} catch (err) {
 			console.log(err);
@@ -59,7 +62,7 @@
 {#if $proposal}
 	<main class="w-full p-5 md:p-10 leading-7">
 		<div class="flex items-center gap-5">
-			<img class="md:w-20" src="/defaultProfile.svg" alt="" />
+			<img class="md:w-20 aspect-square rounded-full" src={$proposal.photo || "/defaultProfile.svg"} alt="" />
 			<div>
 				<h3 class="text-400 mb-1">{$proposal.firstName + ' ' + $proposal.lastName}</h3>
 				<div class="flex gap-1">
@@ -111,9 +114,8 @@
 					<p>no attachments</p>
 				{/if}
 			</div>
-			{console.log($proposal)}
 			<div class="max-md:flex justify-between mt-5 gap-3">
-				<button on:click={() => initChat($proposal._id)} class="ml-auto border-2 border-primary-300 p-2 w-28 md:w-40 inline-block text-center rounded-md">chat</button>
+				<button on:click={() => initChat($proposal._id)} class="ml-auto border-2 border-primary-300 p-2 w-28 md:w-40 inline-block text-center rounded-md">Chat</button>
 				<button on:click={() => acceptRequest()} class="bg-primary-300 text-white p-2 w-28 md:w-40 rounded-lg border-2 border-primary-300">Accept</button>
 			</div>
 		</div>

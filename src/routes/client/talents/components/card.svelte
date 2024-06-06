@@ -1,14 +1,35 @@
 <script>
 	export let cardInfo;
-	import { user, id} from "$lib/stores/Session.js"
+	import { user, id } from '$lib/stores/Session.js';
 	import { goto } from '$app/navigation';
-	
+	import { MS } from '$lib/util/consts.js';
+	console.log(cardInfo);
+	const initChat = async (otherUserId) => {
+		try {
+			console.log($id);
+			console.log(otherUserId);
+			const res = await fetch(`${MS}/room/initiate`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'hello'
+				},
+				body: JSON.stringify({
+					userIds: [$id, otherUserId]
+				})
+			});
+			console.log(res);
+			goto('/messeges');
+		} catch (err) {
+			console.log(err);
+		}
+	};
 </script>
 
 <div class="card bg-white rounded-[2.5rem] relative shadow-lg p-5 pb-[60px] h-fit">
 	<div class="flex items-center gap-3">
 		<div class="rig relative">
-			<img class=" w-14" src="/defaultProfile.svg" alt="" />
+			<img class="rounded-full w-14" src={cardInfo.photo} alt="" />
 		</div>
 		<div>
 			<h3>{cardInfo.firstName + ' ' + cardInfo.lastName}</h3>
@@ -18,10 +39,12 @@
 	<p class="my-2 truncate-text-3">{cardInfo.description}</p>
 	<div class="decoration"></div>
 	<div class="my-buttons justify-center items-center gap-2 hidden">
-		<button>Message</button>
-		<button on:click={() => {
-			goto(`/${$user.role}/profile/${$id}`)
-		}}>View Profile</button>
+		<button on:click={() => initChat(cardInfo._id)}>Message</button>
+		<button
+			on:click={() => {
+				goto(`/freelancer/profile/${cardInfo._id}`);
+			}}>View Profile</button
+		>
 	</div>
 </div>
 

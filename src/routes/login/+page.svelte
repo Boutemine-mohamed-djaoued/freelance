@@ -1,13 +1,13 @@
 <script>
   import { onMount } from "svelte";
-  import LeftSide from "E:/freelance-moncif3/src/routes/components/register/LeftSide.svelte";
+  import LeftSide from "$lib/components/register/LeftSide.svelte";
   import { session , id, token, user } from "$lib/stores/Session.js";
   import MainBtn from "$lib/components/ui/MainButton.svelte";
   import makeQuery from "$lib/util/makeQuery.js";
   import { loginQuery } from "$lib/util/queries.js";
   import { goto } from "$app/navigation";
   import { fade } from "svelte/transition";
-  
+
 
   onMount(() => {
     $session = "register";
@@ -37,8 +37,10 @@
         $user = data.login.user;
         console.log($user);
         if ( data.login.user.role == 'freelancer'){
+          $session = "freelancer";
           goto(`/freelancer/feed`);
         }else{
+          $session = "client";
           console.log(data.login.user.role);
           goto(`/client/talents`);
         }
@@ -67,7 +69,7 @@
       <div class="flex justify-start gap-8 mt-8 items-center">
         <MainBtn title="Login" customClass="btn-1 h-fit" type="submit" />
 
-        <a href="http://localhost:8000/google" > 
+        <a href="http://localhost:8000/google" >
           <!-- svelte-ignore a11y-no-static-element-interactions -->
           <div
             class="login-with-google rounded-2xl"
@@ -103,7 +105,7 @@
               </defs>
             </svg>
             </i>
-            
+
             {#if isHovered}
               <!-- Conditionally render the text -->
               <span class="text font-semibold" transition:fade> sign in with Google </span>

@@ -21,8 +21,7 @@
     name: "moncef",
     pfp: "",
     title: "front-end",
-    description:
-      "Quis eiusmod deserunt cillum laboris magna cupidatat esse labore irure quis cupidatat in. Mollit in laborum tempor Lorem incididunt irure.",
+    description: "Quis eiusmod deserunt cillum laboris magna cupidatat esse labore irure quis cupidatat in. Mollit in laborum tempor Lorem incididunt irure.",
     email: "a.selloum@esi-sba.dz",
     password: "msdf",
     CCP: "2345678",
@@ -81,12 +80,16 @@
 
   async function register() {
     try {
-      const res = await makeQuery(FreelancerProfileQuery, {
-        freelancerProfileId: id,
-      }, {
+      const res = await makeQuery(
+        FreelancerProfileQuery,
+        {
+          freelancerProfileId: userId,
+        },
+        {
           "Content-Type": "application/json",
-          "Authorization" : token
-        }, );
+          Authorization: token,
+        }
+      );
       console.log(res);
       data = res.data.freelancerProfile.freelancer;
       loading = false;
@@ -101,7 +104,7 @@
       user.skills = data.skills;
       // user.reviews = res.data.freelancerProfile.comments;
       user.description = data.description;
-
+      user.pfp = data.photo;
       if (res.errors) {
         throw res.errors;
       }
@@ -111,72 +114,29 @@
   }
 
   // Reactive statement to update prv_array and pub_arr when user changes
-  $: prv_array = [
-    { Date_of_birth: user.Birthday },
-    { Wilaya: user.wilaya },
-    { Current_Rating: user.rating },
-    { Phone_number: user.phone },
-    { Email: user.email },
-  ];
+  $: prv_array = [{ Date_of_birth: user.Birthday }, { Wilaya: user.wilaya }, { Current_Rating: user.rating }, { Phone_number: user.phone }, { Email: user.email }];
 
-  $: pub_arr = [
-    { Date_of_birth: user.Birthday },
-    { Wilaya: user.wilaya },
-    { Current_Rating: user.rating },
-    { Phone_number: user.phone },
-  ];
+  $: pub_arr = [{ Date_of_birth: user.Birthday }, { Wilaya: user.wilaya }, { Current_Rating: user.rating }, { Phone_number: user.phone }];
 
   let graphdata = {
     earning: {
       week: {
         chartValues: [800, 600, 3000, 200, 4800, 0, 400],
-        chartLabels: [
-          "day 1",
-          "day 2",
-          "day 3",
-          "day 4",
-          "day 5",
-          "day 6",
-          "day 7",
-        ],
+        chartLabels: ["day 1", "day 2", "day 3", "day 4", "day 5", "day 6", "day 7"],
       },
       month: {
         chartValues: [2800, 6200, 3600, 6000],
         chartLabels: ["Week 1", "Week 2", "Week 3", "Week 4"],
       },
       year: {
-        chartValues: [
-          28000, 6200, 33600, 45000, 52900, 10000, 78900, 13240, 5000, 15000,
-          12000, 25500,
-        ],
-        chartLabels: [
-          "month 1",
-          "month 2",
-          "month 3",
-          "month 4",
-          "month 5",
-          "month 6",
-          "month 7",
-          "month 8",
-          "month 9",
-          "month 10",
-          "month 11",
-          "month 12",
-        ],
+        chartValues: [28000, 6200, 33600, 45000, 52900, 10000, 78900, 13240, 5000, 15000, 12000, 25500],
+        chartLabels: ["month 1", "month 2", "month 3", "month 4", "month 5", "month 6", "month 7", "month 8", "month 9", "month 10", "month 11", "month 12"],
       },
     },
     proposals: {
       week: {
         chartValues: [],
-        chartLabels: [
-          "day 1",
-          "day 2",
-          "day 3",
-          "day 4",
-          "day 5",
-          "day 6",
-          "day 7",
-        ],
+        chartLabels: ["day 1", "day 2", "day 3", "day 4", "day 5", "day 6", "day 7"],
       },
       month: {
         chartValues: [],
@@ -184,20 +144,7 @@
       },
       year: {
         chartValues: [],
-        chartLabels: [
-          "month 1",
-          "month 2",
-          "month 3",
-          "month 4",
-          "month 5",
-          "month 6",
-          "month 7",
-          "month 8",
-          "month 9",
-          "month 10",
-          "month 11",
-          "month 12",
-        ],
+        chartLabels: ["month 1", "month 2", "month 3", "month 4", "month 5", "month 6", "month 7", "month 8", "month 9", "month 10", "month 11", "month 12"],
       },
     },
   };
@@ -209,25 +156,10 @@
   day = day.replace(/^0+/, "");
   let dateObject = new Date(`${month}/${day}/${year}`);
 
-  const monthNames = [
-    "Janvier",
-    "Février",
-    "Mars",
-    "Avril",
-    "Mai",
-    "Juin",
-    "Juillet",
-    "Août",
-    "Septembre",
-    "Octobre",
-    "Novembre",
-    "Décembre",
-  ];
+  const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
   let monthName = monthNames[dateObject.getMonth()];
 
-  let formattedDate = `${day}${getDaySuffix(
-    day
-  )} ${monthName} ${dateObject.getFullYear()}`;
+  let formattedDate = `${day}${getDaySuffix(day)} ${monthName} ${dateObject.getFullYear()}`;
 
   user.Birthday = formattedDate;
 
@@ -249,19 +181,19 @@
 </script>
 
 {#if !loading}
-  <div class="lg:grid lg:grid-cols-5 m-8 gap-8 max-lg:flex max-lg:flex-col">
-    <div
-      class="col-span-2 lg:min-w-[40%] max-lg:mx-auto max-lg:my-8 max-lg:w-full"
-    >
-      <Infos {user} {pub_arr} {prv_array} {userId} {id} />
-    </div>
-
-    <div class="col-span-3">
-      <div class="mb-8">
-        <Graphe {graphdata} />
+  <div class="grid-system">
+    <div class="lg:grid lg:grid-cols-5 my-8 gap-8 max-lg:flex max-lg:flex-col">
+      <div class="col-span-2 lg:min-w-[40%] max-lg:mx-auto max-lg:my-8 max-lg:w-full">
+        <Infos {user} {pub_arr} {prv_array} {userId} {id} />
       </div>
-      <div>
-        <Comments {user} />
+
+      <div class="col-span-3">
+        <div class="mb-8">
+          <Graphe {graphdata} />
+        </div>
+        <div>
+          <Comments {user} />
+        </div>
       </div>
     </div>
   </div>
