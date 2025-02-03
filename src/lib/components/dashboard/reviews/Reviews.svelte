@@ -3,19 +3,18 @@
 	import DonutChart from './DonutChart.svelte';
 	export let reviews;
 	let defaultReviews = {
-		all: 15,
-		avg: 4.38,
-		nums: [1, 2, 3, 4, 5]
+		all: 14,
+		avg: 3.21,
+		nums: [3, 2, 3, 1, 5]
 	};
-	if (reviews.score) {
-		defaultReviews.nums = reviews.stars;
-		defaultReviews.avg = reviews.score.toFixed(2);
-		defaultReviews.all = 0;
-		reviews.stars.forEach((element) => {
-			defaultReviews.all += element;
-		});
-	}
-	reviews.score = 30 ;
+	// if (reviews.score) {
+	// 	defaultReviews.nums = reviews.stars;
+	// 	defaultReviews.avg = reviews.score.toFixed(2);
+	// 	defaultReviews.all = 0;
+	// 	reviews.stars.forEach((element) => {
+	// 		defaultReviews.all += element;
+	// 	});
+	// }
 	let reviewsProgress;
 	const setReviews = () => {
 		for (let i = 0; i < reviewsProgress.length; i++) {

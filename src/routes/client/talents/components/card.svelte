@@ -38,7 +38,7 @@
 	</div>
 	<p class="my-2 truncate-text-3">{cardInfo.description}</p>
 	<div class="decoration"></div>
-	<div class="my-buttons justify-center items-center gap-2 hidden">
+	<div class="my-buttons max-md:flex justify-center items-center gap-2 hidden">
 		<button on:click={() => initChat(cardInfo._id)}>Message</button>
 		<button
 			on:click={() => {

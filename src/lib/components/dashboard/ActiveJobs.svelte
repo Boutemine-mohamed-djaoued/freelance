@@ -18,6 +18,7 @@
     } else {
       $finishJob = true;
       $job = jobsArrays[active][i];
+      console.log($job);
       if (active === "Done") {
         doneJob.set(true);
       } else if (active === "Active") {

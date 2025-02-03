@@ -72,7 +72,7 @@
 			</p>
 			<button on:click={() => handleClick(chat, i)} class="flex items-center w-full my-3 py-1 md:px-5 md:rounded-xl hover:bg-primary-300 hover:bg-opacity-5 max-md:border-b-2" class:active={current == i}>
 				<div class:after:!bg-light-green={chat.active} class="profileImg m-2 ml-0 relative md:w-20">
-					<img class="rounded-full w-14 aspect-square" src={ chat.user.pfp ||"/defaultProfile.svg"} alt="" />
+					<img class="rounded-full w-14	 aspect-square" src={ chat.user.pfp ||"/defaultProfile.svg"} alt="" />
 				</div>
 				<div class="w-full">
 					<div class="flex justify-between mt-1">

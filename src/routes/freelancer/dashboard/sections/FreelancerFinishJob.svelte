@@ -10,7 +10,8 @@
 	import uploadFiles from '$lib/util/uploadFiles.js';
 	import { freelancerUploadFiles } from '$lib/util/queries.js';
 	let fileInput;
-	let attachements = $job?.files;
+	let attachements = $job?.files || [];
+	console.log($job);
 	console.log('attachements');
 	console.log(attachements);
 	let uploading = false;

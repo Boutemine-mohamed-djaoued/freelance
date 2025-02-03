@@ -85,7 +85,7 @@ html {
 .truncate-text-1 {
 	-webkit-line-clamp: 1;
 }
-.truncate-text-2 {
+.truncate-text-2 {gi
 	-webkit-line-clamp: 2;
 }
 .truncate-text-3 {

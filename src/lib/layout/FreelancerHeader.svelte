@@ -81,7 +81,7 @@
     <a href={`/${$user.role}/profile/${$user.id}`} class="ml-auto md:ml-5">
       <img class="w-12 aspect-square rounded-full" src={$user.photo || "/defaultProfile.svg"} alt="" />
     </a>
-		<p class="min-w-fit ms-3">
+		<p class="max-md:hidden min-w-fit ms-3">
 			{$user.firstName + " " + $user.lastName}
 		</p>
   </div>
